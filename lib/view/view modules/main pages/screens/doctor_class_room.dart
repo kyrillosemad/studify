@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:studify/data/firebase/class/delete_class.dart';
 import 'package:studify/view/constants/colors.dart';
+import 'package:studify/view/view%20modules/class%20room/screens/add_another_event.dart';
 import 'package:studify/view/view%20modules/class%20room/screens/my_events.dart';
 import 'package:studify/view/view%20modules/class%20room/screens/participants.dart';
+import 'package:studify/view/view%20modules/class%20room/screens/students_degrees.dart';
 import 'package:studify/view/view%20modules/class%20room/screens/take_absence.dart';
+import 'package:studify/view/view%20modules/main%20pages/screens/doctor_home_page.dart';
 import 'package:studify/view/view%20modules/main%20pages/widgets/class_room_part.dart';
 
 class DoctorClassRoom extends StatelessWidget {
@@ -76,13 +80,20 @@ class DoctorClassRoom extends StatelessWidget {
                                     service: "Participants"),
                               );
                             }
-                            if (index == 1) {
-                              return ClassRoomPart(
-                                  icon: Icon(
-                                    Icons.stacked_bar_chart,
-                                    color: MyColors().mainColors,
-                                  ),
-                                  service: "Students degrees");
+                            if (index == 3) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(const StudentsDegree(), arguments: {
+                                    "classId": classId,
+                                  });
+                                },
+                                child: ClassRoomPart(
+                                    icon: Icon(
+                                      Icons.stacked_bar_chart,
+                                      color: MyColors().mainColors,
+                                    ),
+                                    service: "Students degrees"),
+                              );
                             }
                             if (index == 2) {
                               return InkWell(
@@ -99,7 +110,7 @@ class DoctorClassRoom extends StatelessWidget {
                                     service: "Take Absence"),
                               );
                             }
-                            if (index == 3) {
+                            if (index == 8) {
                               return ClassRoomPart(
                                   icon: Icon(
                                     Icons.menu_book_sharp,
@@ -107,7 +118,7 @@ class DoctorClassRoom extends StatelessWidget {
                                   ),
                                   service: "Data");
                             }
-                            if (index == 4) {
+                            if (index == 7) {
                               return ClassRoomPart(
                                   icon: Icon(
                                     Icons.video_call,
@@ -131,18 +142,26 @@ class DoctorClassRoom extends StatelessWidget {
                                   ),
                                   service: "Quiz");
                             }
-                            if (index == 7) {
-                              return ClassRoomPart(
-                                  icon: Icon(
-                                    Icons.add,
-                                    color: MyColors().mainColors,
-                                  ),
-                                  service: "Add others events");
-                            }
-                            if (index == 8) {
+                            if (index == 4) {
                               return InkWell(
                                 onTap: () {
-                                  Get.to(const MyEvents());
+                                  Get.to(const AddAnotherEvent(), arguments: {
+                                    "classId": classId,
+                                  });
+                                },
+                                child: ClassRoomPart(
+                                    icon: Icon(
+                                      Icons.add,
+                                      color: MyColors().mainColors,
+                                    ),
+                                    service: "Add others events"),
+                              );
+                            }
+                            if (index == 1) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(const MyEvents(),
+                                      arguments: {"classId": classId});
                                 },
                                 child: ClassRoomPart(
                                     icon: Icon(
@@ -163,16 +182,37 @@ class DoctorClassRoom extends StatelessWidget {
                   height: 2.h,
                 ),
                 Center(
-                  child: Container(
-                    width: 90.w,
-                    height: 6.h,
-                    decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10.sp)),
-                    child: Center(
-                      child: Text(
-                        "Delete this class ",
-                        style: TextStyle(fontSize: 13.sp, color: Colors.white),
+                  child: InkWell(
+                    onTap: () {
+                      Get.defaultDialog(
+                        buttonColor: MyColors().mainColors,
+                        cancelTextColor: MyColors().mainColors,
+                        confirmTextColor: Colors.white,
+                        title: "delete ?",
+                        titleStyle: TextStyle(color: MyColors().mainColors),
+                        content: Text(
+                          " want to delete this class?",
+                          style: TextStyle(color: MyColors().mainColors),
+                        ),
+                        onCancel: () {},
+                        onConfirm: () {
+                          deleteClass(classId);
+                          Get.offAll(const DoctorHomePage());
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: 90.w,
+                      height: 6.h,
+                      decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10.sp)),
+                      child: Center(
+                        child: Text(
+                          "Delete this class ",
+                          style:
+                              TextStyle(fontSize: 13.sp, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),

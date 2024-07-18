@@ -5,6 +5,7 @@ import 'package:studify/data/firebase/class/delete_participant.dart';
 import 'package:studify/view/constants/colors.dart';
 import 'package:studify/view/constants/shared.dart';
 import 'package:studify/view/view%20modules/class%20room/screens/enroll_in_absence.dart';
+import 'package:studify/view/view%20modules/class%20room/screens/one_student_degree.dart';
 import 'package:studify/view/view%20modules/main%20pages/screens/student_home_page.dart';
 import 'package:studify/view/view%20modules/main%20pages/widgets/class_room_part.dart';
 
@@ -59,12 +60,21 @@ class _StudentClassRoomState extends State<StudentClassRoom> {
                     itemCount: 5,
                     itemBuilder: (BuildContext context, int index) {
                       if (index == 0) {
-                        return ClassRoomPart(
-                            icon: Icon(
-                              Icons.stacked_bar_chart,
-                              color: MyColors().mainColors,
-                            ),
-                            service: "My degrees");
+                        return InkWell(
+                          onTap: () {
+                            Get.to(const OneStudentDegree(), arguments: {
+                              "classId": classId,
+                              "studentId": Shared().id,
+                              "studentName": Shared().userName
+                            });
+                          },
+                          child: ClassRoomPart(
+                              icon: Icon(
+                                Icons.stacked_bar_chart,
+                                color: MyColors().mainColors,
+                              ),
+                              service: "My degrees"),
+                        );
                       }
                       if (index == 1) {
                         return InkWell(

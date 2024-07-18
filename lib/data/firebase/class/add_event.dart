@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studify/data/firebase/class/get_all_participants.dart';
 
-addEvent(String classId, String eventName,String eventId) async {
+addEvent(String classId, String eventName, String eventId,totalScore) async {
   List events = [];
   Map newEvent = {};
 
@@ -26,10 +26,10 @@ addEvent(String classId, String eventName,String eventId) async {
     element['studentScore'] = "0";
   }
 
-
   newEvent = {
-    "eventId":eventId,
+    "eventId": eventId,
     "eventName": eventName,
+    "totalScore":totalScore,
     "eventDate": DateTime.now(),
     "studentsScores": students,
   };

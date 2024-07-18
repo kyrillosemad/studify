@@ -14,6 +14,7 @@ class Participants extends StatefulWidget {
 }
 
 class _ParticipantsState extends State<Participants> {
+  TextEditingController searchCont = TextEditingController();
   TextEditingController studentNameCont = TextEditingController();
   TextEditingController studentIdCont = TextEditingController();
   var classId = Get.arguments['classId'];
@@ -58,6 +59,26 @@ class _ParticipantsState extends State<Participants> {
                   style:
                       TextStyle(color: MyColors().mainColors, fontSize: 15.sp),
                 ),
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
+              TextFormField(
+                controller: searchCont,
+                style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+                decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: MyColors().mainColors,
+                    ),
+                    hintText: "Search",
+                    hintStyle: TextStyle(
+                        fontSize: 15.sp, color: MyColors().mainColors),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.sp))),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(10.sp)))),
               ),
               SizedBox(
                 height: 2.h,

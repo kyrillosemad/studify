@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 Future<Map<String, dynamic>> getStudentScoresAndTotalInEvents(
     String classId, String studentId) async {
   List<Map<String, dynamic>> studentScoresInEvents = [];
-  int totalScore = 0;
-  int highTotalScore = 0;
+  double totalScore = 0;
+  double highTotalScore = 0;
   var querySnapshot = await FirebaseFirestore.instance
       .collection("classes")
       .where("id", isEqualTo: classId)
@@ -23,13 +23,13 @@ Future<Map<String, dynamic>> getStudentScoresAndTotalInEvents(
 
           for (var studentScore in studentsScores) {
             if (studentScore['studentId'] == studentId) {
-              int highScore = int.tryParse(event['totalScore']) ?? 0;
-              int score = int.tryParse(studentScore['studentScore']) ?? 0;
+              double highScore = _parseToDouble(event['totalScore']);
+              double score = _parseToDouble(studentScore['studentScore']);
               totalScore += score;
               highTotalScore += highScore;
               studentScoresInEvents.add({
                 'eventName': event['eventName'],
-                'totalScore': event['totalScore'],
+                'totalScore': highScore,
                 'studentName': studentScore['studentName'],
                 'studentScore': score,
               });
@@ -45,4 +45,15 @@ Future<Map<String, dynamic>> getStudentScoresAndTotalInEvents(
     'studentScoresInEvents': studentScoresInEvents,
     'totalScore': totalScore,
   };
+}
+
+double _parseToDouble(dynamic value) {
+  if (value is int) {
+    return value.toDouble();
+  } else if (value is double) {
+    return value;
+  } else if (value is String) {
+    return double.tryParse(value) ?? 0.0;
+  }
+  return 0.0;
 }

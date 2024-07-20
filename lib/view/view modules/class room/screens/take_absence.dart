@@ -82,7 +82,7 @@ class _TakeAbsenceState extends State<TakeAbsence> {
                             onConfirm: () {
                               setState(() {
                                 addEvent(classId, eventNameCont.text, eventId,
-                                    totalScoreCont.text);
+                                    totalScoreCont.text,[]);
                                 isready = true;
                                 Get.back();
                               });

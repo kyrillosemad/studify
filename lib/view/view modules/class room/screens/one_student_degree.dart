@@ -15,8 +15,9 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
   var studentName = Get.arguments['studentName'];
   var studentId = Get.arguments['studentId'];
   var classId = Get.arguments['classId'];
-  int totalScore = 0;
-  int highTotalScore = 0;
+  double totalScore = 0.0;
+  double highTotalScore = 0.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +106,6 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
                                           BorderRadius.circular(10.sp),
                                     ),
                                     margin: EdgeInsets.all(8.sp),
-                                    height: 12.h,
                                     child: ListTile(
                                       leading: Icon(
                                         Icons.class_,
@@ -118,7 +118,7 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
                                             color: MyColors().mainColors),
                                       ),
                                       trailing: Text(
-                                        "Score: ${classData['studentScore']} / ${classData['totalScore']}",
+                                        "Score: ${classData['studentScore'].toStringAsFixed(1)} / ${classData['totalScore'].toStringAsFixed(1)}",
                                         style: TextStyle(
                                             fontSize: 12.sp,
                                             color: MyColors().mainColors),
@@ -130,7 +130,7 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
                             ),
                             SizedBox(height: 2.h),
                             Text(
-                              "Total Score: $totalScore / $highTotalScore",
+                              "Total Score: ${totalScore.toStringAsFixed(1)} / ${highTotalScore.toStringAsFixed(1)}",
                               style: TextStyle(
                                   fontSize: 15.sp,
                                   color: MyColors().mainColors),

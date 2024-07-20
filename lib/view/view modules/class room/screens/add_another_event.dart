@@ -78,7 +78,7 @@ class _AddAnotherEventState extends State<AddAnotherEvent> {
                           onConfirm: () {
                             setState(() {
                               addEvent(classId, eventNameCont.text, eventId,
-                                  totalScoreCont.text);
+                                  totalScoreCont.text,[]);
 
                               Get.back();
                             });

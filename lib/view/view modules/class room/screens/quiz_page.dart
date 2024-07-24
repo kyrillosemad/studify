@@ -52,7 +52,8 @@ class _QuizPageState extends State<QuizPage> {
                                 padding: EdgeInsets.all(5.sp),
                                 margin: EdgeInsets.all(5.sp),
                                 decoration: BoxDecoration(
-                                    color: MyColors().mainColors.withOpacity(0.3),
+                                    color:
+                                        MyColors().mainColors.withOpacity(0.3),
                                     borderRadius: BorderRadius.circular(10.sp)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,7 +204,8 @@ class _QuizPageState extends State<QuizPage> {
                       child: Center(
                         child: Text(
                           "Send",
-                          style: TextStyle(fontSize: 15.sp, color: Colors.white),
+                          style:
+                              TextStyle(fontSize: 15.sp, color: Colors.white),
                         ),
                       ),
                     ),

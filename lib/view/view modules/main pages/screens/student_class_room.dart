@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/data/firebase/class/allowed.dart';
 import 'package:studify/data/firebase/class/delete_participant.dart';
+import 'package:studify/data/firebase/class/enroll_in_absence.dart';
 import 'package:studify/view/constants/colors.dart';
 import 'package:studify/view/constants/shared.dart';
-import 'package:studify/view/view%20modules/class%20room/screens/enroll_in_absence.dart';
+import 'package:studify/view/view%20modules/class%20room/screens/chat_page.dart';
+import 'package:studify/view/view%20modules/class%20room/screens/data_for_student.dart';
 import 'package:studify/view/view%20modules/class%20room/screens/one_student_degree.dart';
 import 'package:studify/view/view%20modules/class%20room/screens/quiz_page.dart';
 import 'package:studify/view/view%20modules/main%20pages/screens/student_home_page.dart';
@@ -83,6 +86,7 @@ class _StudentClassRoomState extends State<StudentClassRoom> {
                               });
                             },
                             child: ClassRoomPart(
+                                color: Colors.teal,
                                 icon: Icon(
                                   Icons.stacked_bar_chart,
                                   color: MyColors().mainColors,
@@ -93,11 +97,18 @@ class _StudentClassRoomState extends State<StudentClassRoom> {
                         if (index == 1) {
                           return InkWell(
                             onTap: () async {
-                              Get.to(const EnrollInAbsence(), arguments: {
-                                "classId": classId,
+                              await FlutterBarcodeScanner.scanBarcode(
+                                      "#2A99CF", "cancel", true, ScanMode.QR)
+                                  .then((value) {
+                                enrollInAbsence(
+                                    classId,
+                                    value.toString(),
+                                    Shared().userName.toString(),
+                                    Shared().id.toString());
                               });
                             },
                             child: ClassRoomPart(
+                                color: Colors.orange,
                                 icon: Icon(
                                   Icons.person_add_alt_1_outlined,
                                   color: MyColors().mainColors,
@@ -107,8 +118,13 @@ class _StudentClassRoomState extends State<StudentClassRoom> {
                         }
                         if (index == 2) {
                           return InkWell(
-                            onTap: () async {},
+                            onTap: () async {
+                              Get.to(const DataForStudents(), arguments: {
+                                "classId": classId,
+                              });
+                            },
                             child: ClassRoomPart(
+                                color: Colors.blue,
                                 icon: Icon(
                                   Icons.menu_book_sharp,
                                   color: MyColors().mainColors,
@@ -116,16 +132,23 @@ class _StudentClassRoomState extends State<StudentClassRoom> {
                                 service: "Data"),
                           );
                         }
-                        if (index == 3) {
-                          return ClassRoomPart(
-                              icon: Icon(
-                                Icons.video_call,
-                                color: MyColors().mainColors,
-                              ),
-                              service: "Video call");
-                        }
-
                         if (index == 4) {
+                          return InkWell(
+                            onTap: () async {
+                              Get.to(const ChatPage(), arguments: {
+                                "classId": classId,
+                              });
+                            },
+                            child: ClassRoomPart(
+                                color: Colors.redAccent,
+                                icon: Icon(
+                                  Icons.chat,
+                                  color: MyColors().mainColors,
+                                ),
+                                service: "Chat Room"),
+                          );
+                        }
+                        if (index == 3) {
                           return InkWell(
                             onTap: () {
                               Get.defaultDialog(
@@ -175,6 +198,7 @@ class _StudentClassRoomState extends State<StudentClassRoom> {
                               );
                             },
                             child: ClassRoomPart(
+                                color: Colors.green,
                                 icon: Icon(
                                   Icons.quiz,
                                   color: MyColors().mainColors,

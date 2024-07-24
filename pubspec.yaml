@@ -47,6 +47,9 @@ dependencies:
   barcode_widget: ^2.0.3
   flutter_barcode_scanner: ^2.0.0
   intl: ^0.17.0
+  firebase_storage: ^11.6.0
+  syncfusion_flutter_pdfviewer: ^20.4.54
+  file_picker: ^5.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

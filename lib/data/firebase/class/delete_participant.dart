@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:studify/view/constants/colors.dart';
 
@@ -23,6 +24,7 @@ deleteParticipant(classId, studentName, studentId) async {
                   .doc(classId)
                   .update({"participants": participants});
             }));
+    await FirebaseMessaging.instance.unsubscribeFromTopic('$classId');
     Get.back();
     Get.snackbar("Success", "the participant is leaved",
         colorText: MyColors().mainColors,

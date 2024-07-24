@@ -14,6 +14,7 @@ enrollInAbsence(String classId, String eventId, String studentName,
       if (doc.exists) {
         List<dynamic> eventsList = doc.data()!['events'];
         bool foundEvent = false;
+
         for (var event in eventsList) {
           if (event['eventId'] == eventId) {
             foundEvent = true;
@@ -24,7 +25,9 @@ enrollInAbsence(String classId, String eventId, String studentName,
                 student['studentScore'] = event['totalScore'];
               }
             }
-            updatedEvents.add(event);
+            updatedEvents.add(event); 
+          } else {
+            updatedEvents.add(event); 
           }
         }
 

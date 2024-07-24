@@ -82,7 +82,7 @@ class _TakeAbsenceState extends State<TakeAbsence> {
                             onConfirm: () {
                               setState(() {
                                 addEvent(classId, eventNameCont.text, eventId,
-                                    totalScoreCont.text,[]);
+                                    totalScoreCont.text, []);
                                 isready = true;
                                 Get.back();
                               });
@@ -93,7 +93,7 @@ class _TakeAbsenceState extends State<TakeAbsence> {
                           width: 90.w,
                           height: 6.h,
                           decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: MyColors().mainColors,
                               borderRadius: BorderRadius.circular(10.sp)),
                           child: Center(
                             child: Text(

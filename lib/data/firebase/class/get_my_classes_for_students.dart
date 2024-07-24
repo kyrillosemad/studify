@@ -9,9 +9,7 @@ Future<List<Map<String, dynamic>>> getMyClassesForStudents() async {
     "studentName": Shared().userName,
     "studentId": Shared().id
   }).get();
-  // Use snapshot to access documents
   for (var doc in snapshot.docs) {
-    // Access document data using doc.data()
     classes.add(doc.data() as Map<String, dynamic>);
   }
   return classes;

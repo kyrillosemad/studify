@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:studify/view/constants/colors.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 addParticipant(String classId, String studentId, String studentName) async {
   await FirebaseFirestore.instance
       .collection("classes")
@@ -25,7 +25,8 @@ addParticipant(String classId, String studentId, String studentName) async {
           .doc(doc['id'])
           .update({
         'participants': participants,
-      }).then((_) {
+      }).then((_)async {
+        await FirebaseMessaging.instance.subscribeToTopic(classId);
         Get.back();
         Get.snackbar("Success", "the student has been successfully added",
             colorText: MyColors().mainColors,

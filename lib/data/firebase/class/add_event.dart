@@ -43,7 +43,7 @@ addEvent(String classId, String eventName, String eventId, totalScore,
     await FirebaseFirestore.instance.collection("classes").doc(classId).update({
       "events": events,
     });
-    Get.back();
+
     Get.snackbar("Done", "the event is added successfully");
   } catch (e) {
     Get.snackbar("Failed", "there's something wrong");

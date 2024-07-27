@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/data/firebase/class/get_all_msgs.dart';
-import 'package:studify/data/firebase/class/send_msg.dart';
+import 'package:studify/services/firebase/chat/get_all_msgs.dart';
+import 'package:studify/services/firebase/chat/send_msg.dart';
 import 'package:studify/view/constants/colors.dart';
 
 void main() {

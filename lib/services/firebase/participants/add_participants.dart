@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:studify/view/constants/colors.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 addParticipant(String classId, String studentId, String studentName) async {
+  Get.back();
   await FirebaseFirestore.instance
       .collection("classes")
       .where("id", isEqualTo: classId)
@@ -25,29 +27,26 @@ addParticipant(String classId, String studentId, String studentName) async {
           .doc(doc['id'])
           .update({
         'participants': participants,
-      }).then((_)async {
+      }).then((_) async {
         await FirebaseMessaging.instance.subscribeToTopic(classId);
-        Get.back();
+
         Get.snackbar("Success", "the student has been successfully added",
             colorText: MyColors().mainColors,
             animationDuration: const Duration(milliseconds: 500),
             duration: const Duration(milliseconds: 1500));
       }).catchError((error) {
-        Get.back();
         Get.snackbar("Failed", "there's something wrong",
             colorText: MyColors().mainColors,
             animationDuration: const Duration(milliseconds: 500),
             duration: const Duration(milliseconds: 1500));
       });
     } else {
-      Get.back();
       Get.snackbar("Failed", "there's something wrong",
           colorText: MyColors().mainColors,
           animationDuration: const Duration(milliseconds: 500),
           duration: const Duration(milliseconds: 1500));
     }
   }).catchError((error) {
-    Get.back();
     Get.snackbar("Failed", "there's something wrong",
         colorText: MyColors().mainColors,
         animationDuration: const Duration(milliseconds: 500),

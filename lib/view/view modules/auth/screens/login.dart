@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/data/firebase/auth/login_fun.dart';
+import 'package:studify/services/firebase/auth/login_fun.dart';
 import 'package:studify/view/constants/colors.dart';
 import 'package:studify/view/view%20modules/auth/screens/signup.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/data/firebase/class/delete_data.dart';
-import 'package:studify/data/firebase/class/get%20_all_data.dart';
-import 'package:studify/data/firebase/class/upload_data.dart';
+import 'package:studify/services/firebase/data/delete_data.dart';
+import 'package:studify/services/firebase/data/get%20_all_data.dart';
+import 'package:studify/services/firebase/data/upload_data.dart';
 import 'package:studify/view/constants/colors.dart';
 import 'package:studify/view/view%20modules/class%20room/screens/pdf_viewer.dart';
 

@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/data/firebase/class/delete_event.dart';
-import 'package:studify/data/firebase/class/my_events.dart';
+import 'package:studify/view%20model/events/bloc/events_bloc.dart';
 import 'package:studify/view/constants/colors.dart';
+import 'package:studify/view/constants/styles.dart';
 import 'package:studify/view/view%20modules/class%20room/screens/event.dart';
 import 'package:intl/intl.dart';
 
@@ -18,6 +19,12 @@ class MyEvents extends StatefulWidget {
 class _MyEventsState extends State<MyEvents> {
   TextEditingController searchCont = TextEditingController();
   var classId = Get.arguments['classId'];
+  @override
+  void initState() {
+    super.initState();
+    context.read<EventsBloc>().add(GetEvents(classId, ''));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +53,9 @@ class _MyEventsState extends State<MyEvents> {
                 height: 2.h,
               ),
               TextFormField(
+                onChanged: (value) {
+                  context.read<EventsBloc>().add(GetEvents(classId, value));
+                },
                 controller: searchCont,
                 style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
                 decoration: InputDecoration(
@@ -65,35 +75,32 @@ class _MyEventsState extends State<MyEvents> {
               SizedBox(
                 height: 2.h,
               ),
-              Expanded(
-                child: FutureBuilder(
-                  future: getMyEvents(classId),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasError) {
+              Expanded(child: BlocBuilder<EventsBloc, EventsState>(
+                builder: (context, state) {
+                  if (state is EventsLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is EventsError) {
+                    return Center(
+                      child: Text(
+                        "Something Wrong ${state.msg}",
+                        style: Styles().msgsStyles,
+                      ),
+                    );
+                  } else if (state is EventsLoaded) {
+                    if (state.events.isEmpty) {
                       return Center(
                         child: Text(
-                          "An error occurred",
-                          style: TextStyle(
-                              fontSize: 15.sp, color: MyColors().mainColors),
-                        ),
-                      );
-                    } else if (!snapshot.hasData || snapshot.data.isEmpty) {
-                      return Center(
-                        child: Text(
-                          "No events found",
-                          style: TextStyle(
-                              fontSize: 15.sp, color: MyColors().mainColors),
+                          "There's no events",
+                          style: Styles().msgsStyles,
                         ),
                       );
                     } else {
                       return ListView.builder(
-                        itemCount: snapshot.data.length,
+                        itemCount: state.events.length,
                         itemBuilder: (BuildContext context, int index) {
-                          var event = snapshot.data[index];
+                          var event = state.events[index];
                           if (!event.containsKey('eventDate') ||
                               !event.containsKey('eventId')) {
                             return Container(
@@ -146,9 +153,9 @@ class _MyEventsState extends State<MyEvents> {
                                         ),
                                         onCancel: () {},
                                         onConfirm: () async {
-                                          await deleteEvent(
-                                              classId, event['eventId']);
-                                          setState(() {});
+                                          context.read<EventsBloc>().add(
+                                              DeleteEvent(
+                                                  classId, event['eventId']));
                                         },
                                       );
                                     },
@@ -163,9 +170,11 @@ class _MyEventsState extends State<MyEvents> {
                         },
                       );
                     }
-                  },
-                ),
-              )
+                  } else {
+                    return Container();
+                  }
+                },
+              ))
             ],
           ),
         ),

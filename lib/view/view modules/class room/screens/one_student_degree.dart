@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/data/firebase/class/get_all_student_degrees.dart';
+import 'package:studify/view%20model/degrees/bloc/degrees_bloc.dart';
 import 'package:studify/view/constants/colors.dart';
+import 'package:studify/view/constants/styles.dart';
 
 class OneStudentDegree extends StatefulWidget {
   const OneStudentDegree({super.key});
@@ -15,19 +17,25 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
   var studentName = Get.arguments['studentName'];
   var studentId = Get.arguments['studentId'];
   var classId = Get.arguments['classId'];
-  double totalScore = 0.0;
-  double highTotalScore = 0.0;
+  TextEditingController searchCont = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<DegreesBloc>().add(GetStudentDegrees(classId, studentId, ''));
+  }
+
+  void _onSearchChanged() {
+    context
+        .read<DegreesBloc>()
+        .add(GetStudentDegrees(classId, studentId, searchCont.text));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: InkWell(
-          onTap: () {
-            getStudentScoresAndTotalInEvents(classId, studentId);
-          },
-          child: Text("$studentName"),
-        ),
+        title: Text("$studentName"),
         centerTitle: true,
         backgroundColor: MyColors().mainColors,
       ),
@@ -35,62 +43,78 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
         child: SizedBox(
           width: 95.w,
           height: 100.h,
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 2.h,
-                ),
-                Text(
-                  "There's all degrees of events of student $studentName",
-                  style:
-                      TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Expanded(
-                  child: FutureBuilder(
-                    future:
-                        getStudentScoresAndTotalInEvents(classId, studentId),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: MyColors().mainColors,
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            "Error: ${snapshot.error}",
-                            style: TextStyle(
-                                fontSize: 15.sp, color: MyColors().mainColors),
-                          ),
-                        );
-                      } else if (!snapshot.hasData ||
-                          snapshot.data == null ||
-                          snapshot.data!['studentScoresInEvents'].isEmpty) {
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 2.h,
+              ),
+              Text(
+                "There's all degrees of events of student $studentName",
+                style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
+              TextFormField(
+                controller: searchCont,
+                onChanged: (value) => _onSearchChanged(),
+                style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+                decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: MyColors().mainColors,
+                    ),
+                    hintText: "Search",
+                    hintStyle: TextStyle(
+                        fontSize: 15.sp, color: MyColors().mainColors),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.sp))),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(10.sp)))),
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
+              Expanded(
+                child: BlocBuilder<DegreesBloc, DegreesState>(
+                  builder: (context, state) {
+                    if (state is DegreesLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is DegreesError) {
+                      return Center(
+                        child: Text(
+                          "An error occurred: ${state.msg}",
+                          style: Styles().msgsStyles,
+                        ),
+                      );
+                    } else if (state is DegreesLoaded) {
+                      if (state.degrees.isEmpty) {
                         return Center(
                           child: Text(
                             "No events found",
-                            style: TextStyle(
-                                fontSize: 15.sp, color: MyColors().mainColors),
+                            style: Styles().msgsStyles,
                           ),
                         );
                       } else {
-                        List<Map<String, dynamic>> studentScoresInEvents =
-                            snapshot.data!['studentScoresInEvents'];
-                        totalScore = snapshot.data!['totalScore'];
-                        highTotalScore = snapshot.data!['highTotalScore'];
+                        double totalScore = state.degrees.fold(
+                            0.0,
+                            (previousValue, element) =>
+                                previousValue + element['studentScore']);
+                        double highTotalScore = state.degrees.fold(
+                            0.0,
+                            (previousValue, element) =>
+                                previousValue + element['totalScore']);
                         return Column(
                           children: [
                             Expanded(
                               child: ListView.builder(
-                                itemCount: studentScoresInEvents.length,
+                                itemCount: state.degrees.length,
                                 itemBuilder: (context, index) {
-                                  var classData = studentScoresInEvents[index];
+                                  var classData = state.degrees[index];
                                   return Container(
                                     decoration: BoxDecoration(
                                       boxShadow: [
@@ -141,11 +165,13 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
                           ],
                         );
                       }
-                    },
-                  ),
+                    } else {
+                      return Container();
+                    }
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

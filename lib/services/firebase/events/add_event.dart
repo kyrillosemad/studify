@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:studify/data/firebase/class/get_all_participants.dart';
+import 'package:studify/services/firebase/participants/get_all_participants.dart';
 
 addEvent(String classId, String eventName, String eventId, totalScore,
     questions) async {

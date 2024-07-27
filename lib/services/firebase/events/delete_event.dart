@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 deleteEvent(String classID, String eventId) async {
+  Get.back();
   var querySnapshot = await FirebaseFirestore.instance
       .collection("classes")
       .where("id", isEqualTo: classID)
@@ -19,10 +20,8 @@ deleteEvent(String classID, String eventId) async {
           .collection("classes")
           .doc(doc.id)
           .update({'events': events});
-      Get.back();
       Get.snackbar("Done", "deleted successfully");
     } else {
-      Get.back();
       Get.snackbar("Done", "there's something wrong");
     }
   }

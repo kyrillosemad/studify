@@ -1,8 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/data/firebase/class/add_event.dart';
+import 'package:studify/view%20model/events/bloc/events_bloc.dart';
 import 'package:studify/view/constants/colors.dart';
 
 class MakeQuiz extends StatefulWidget {
@@ -13,6 +14,7 @@ class MakeQuiz extends StatefulWidget {
 }
 
 class _MakeQuizState extends State<MakeQuiz> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController quizNameCont = TextEditingController();
   TextEditingController quizScoreCont = TextEditingController();
   int numOfQuestions = 0;
@@ -31,94 +33,120 @@ class _MakeQuizState extends State<MakeQuiz> {
       ),
       body: Padding(
         padding: EdgeInsets.all(4.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 2.h),
-            _buildTextField(
-              controller: quizNameCont,
-              hintText: "Enter Quiz Name",
-              icon: Icons.title,
-            ),
-            SizedBox(height: 2.h),
-            _buildTextField(
-              controller: quizScoreCont,
-              hintText: "Enter Quiz Score",
-              icon: Icons.score,
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 2.h),
-            Divider(thickness: 1.5, color: MyColors().mainColors),
-            SizedBox(height: 2.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Questions",
-                  style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                      color: MyColors().mainColors),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      numOfQuestions++;
-                      questions.add(QuizQuestion());
-                    });
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text("Add"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.sp),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 2.h),
+              _buildTextField(
+                controller: quizNameCont,
+                hintText: "Enter Quiz Name",
+                icon: Icons.title,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "Quiz Name cannot be empty.";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 2.h),
+              _buildTextField(
+                controller: quizScoreCont,
+                hintText: "Enter Quiz Score",
+                icon: Icons.score,
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "Quiz Score cannot be empty.";
+                  }
+                  final number = int.tryParse(value);
+                  if (number == null || number <= 0) {
+                    return "Quiz Score must be a valid number greater than 0.";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 2.h),
+              Divider(thickness: 1.5, color: MyColors().mainColors),
+              SizedBox(height: 2.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Questions",
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: MyColors().mainColors),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        numOfQuestions++;
+                        questions.add(QuizQuestion());
+                      });
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text("Add"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.sp),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 8.sp, vertical: 4.sp),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.sp, vertical: 4.sp),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: 2.h),
-            Expanded(
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: numOfQuestions,
-                itemBuilder: (BuildContext context, int index) {
-                  return _buildQuestionCard(index);
-                },
+                  )
+                ],
               ),
-            ),
-            SizedBox(height: 2.h),
-            Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  List<Map<String, dynamic>> questionsData =
-                      questions.map((question) => question.toMap()).toList();
-                  Get.back();
-                  await addEvent(classId, quizNameCont.text, eventId,
-                      quizScoreCont.text, questionsData);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: MyColors().mainColors,
-                  padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.sp),
-                  ),
-                ),
-                child: SizedBox(
-                  width: 80.w,
-                  child: Text(
-                    'Save the Quiz',
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-                  ),
+              SizedBox(height: 2.h),
+              Expanded(
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: numOfQuestions,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _buildQuestionCard(index);
+                  },
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: 2.h),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      List<Map<String, dynamic>> questionsData = questions
+                          .map((question) => question.toMap())
+                          .toList();
+                      Get.back();
+                      context.read<EventsBloc>().add(AddEvent(
+                          classId,
+                          quizNameCont.text,
+                          eventId,
+                          quizScoreCont.text,
+                          questionsData));
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColors().mainColors,
+                    padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.sp),
+                    ),
+                  ),
+                  child: SizedBox(
+                    width: 80.w,
+                    child: Text(
+                      'Save the Quiz',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 16.sp, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -129,6 +157,7 @@ class _MakeQuizState extends State<MakeQuiz> {
     required String hintText,
     required IconData icon,
     TextInputType keyboardType = TextInputType.text,
+    required String? Function(String?) validator,
   }) {
     return TextFormField(
       controller: controller,
@@ -145,6 +174,7 @@ class _MakeQuizState extends State<MakeQuiz> {
         ),
         hintText: hintText,
       ),
+      validator: validator,
     );
   }
 
@@ -189,6 +219,12 @@ class _MakeQuizState extends State<MakeQuiz> {
             controller: questions[index].questionController,
             hintText: "Enter Question",
             icon: Icons.question_answer,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return "Question cannot be empty.";
+              }
+              return null;
+            },
           ),
           SizedBox(height: 2.h),
           _buildOptionField(
@@ -222,6 +258,12 @@ class _MakeQuizState extends State<MakeQuiz> {
             controller: controller,
             hintText: hintText,
             icon: Icons.edit,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return "This option cannot be empty.";
+              }
+              return null;
+            },
           ),
         ),
       ],

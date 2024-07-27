@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/data/firebase/class/get_quiz.dart';
-import 'package:studify/data/firebase/class/quiz_result.dart';
+import 'package:studify/services/firebase/events/get_quiz.dart';
+import 'package:studify/services/firebase/events/quiz_result.dart';
 import 'package:studify/view/constants/colors.dart';
 
 class QuizPage extends StatefulWidget {

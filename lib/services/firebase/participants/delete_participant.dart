@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:studify/view/constants/colors.dart';
 
 deleteParticipant(classId, studentName, studentId) async {
-  print("ttt");
   List<dynamic> participants = [];
   try {
+    Get.back();
     await FirebaseFirestore.instance
         .collection("classes")
         .where("id", isEqualTo: classId)
@@ -25,13 +25,13 @@ deleteParticipant(classId, studentName, studentId) async {
                   .update({"participants": participants});
             }));
     await FirebaseMessaging.instance.unsubscribeFromTopic('$classId');
-    Get.back();
+
     Get.snackbar("Success", "the participant is leaved",
         colorText: MyColors().mainColors,
         animationDuration: const Duration(milliseconds: 500),
         duration: const Duration(milliseconds: 1500));
   } catch (e) {
-    Get.back();
+
     Get.snackbar("Failed", "there's something wrong",
         colorText: MyColors().mainColors,
         animationDuration: const Duration(milliseconds: 500),

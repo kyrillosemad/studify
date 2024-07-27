@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
-changeStudentScore(String classId, String studentId, String newScore,eventId) async {
+changeStudentScore(
+    String classId, String studentId, String newScore, eventId) async {
+  Get.back();
   var querySnapshot = await FirebaseFirestore.instance
       .collection("classes")
       .where("id", isEqualTo: classId)
@@ -16,7 +19,8 @@ changeStudentScore(String classId, String studentId, String newScore,eventId) as
         if (event.containsKey('studentsScores') &&
             event['studentsScores'] is List) {
           for (var studentScore in event['studentsScores']) {
-            if (event['eventId']==eventId&&studentScore['studentId'] == studentId) {
+            if (event['eventId'] == eventId &&
+                studentScore['studentId'] == studentId) {
               studentScore['studentScore'] = newScore;
             }
           }

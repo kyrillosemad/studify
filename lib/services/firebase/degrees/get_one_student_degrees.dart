@@ -5,6 +5,7 @@ Future<Map<String, dynamic>> getStudentScoresAndTotalInEvents(
   List<Map<String, dynamic>> studentScoresInEvents = [];
   double totalScore = 0;
   double highTotalScore = 0;
+
   var querySnapshot = await FirebaseFirestore.instance
       .collection("classes")
       .where("id", isEqualTo: classId)

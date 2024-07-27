@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/data/firebase/class/allowed.dart';
-import 'package:studify/data/firebase/class/delete_participant.dart';
-import 'package:studify/data/firebase/class/enroll_in_absence.dart';
+import 'package:studify/services/firebase/events/allowed.dart';
+import 'package:studify/services/firebase/events/enroll_in_absence.dart';
+import 'package:studify/services/firebase/participants/delete_participant.dart';
 import 'package:studify/view/constants/colors.dart';
 import 'package:studify/view/constants/shared.dart';
 import 'package:studify/view/view%20modules/class%20room/screens/chat_page.dart';
@@ -45,6 +45,7 @@ class _StudentClassRoomState extends State<StudentClassRoom> {
           centerTitle: true,
         ),
         body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           child: Center(
             child: SizedBox(
               width: 97.w,

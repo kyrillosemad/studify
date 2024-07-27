@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/data/firebase/class/add_participants.dart';
-import 'package:studify/data/firebase/class/delete_participant.dart';
-import 'package:studify/data/firebase/class/get_all_participants.dart';
 import 'package:studify/view/constants/colors.dart';
+import 'package:studify/view%20model/participants/bloc/participants_bloc.dart';
+import 'package:studify/view/constants/styles.dart';
 
 class Participants extends StatefulWidget {
   const Participants({super.key});
@@ -17,21 +17,14 @@ class _ParticipantsState extends State<Participants> {
   TextEditingController searchCont = TextEditingController();
   TextEditingController studentNameCont = TextEditingController();
   TextEditingController studentIdCont = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   var classId = Get.arguments['classId'];
   int numOfParticipants = 0;
-  @override
+
   @override
   void initState() {
     super.initState();
-    fetchParticipants();
-  }
-
-  void fetchParticipants() async {
-    List<Map<String, dynamic>> part =
-        await getAllParticipants(classId.toString());
-    setState(() {
-      numOfParticipants = part.length;
-    });
+    context.read<ParticipantsBloc>().add(FetchParticipants(classId, ''));
   }
 
   @override
@@ -40,7 +33,14 @@ class _ParticipantsState extends State<Participants> {
       appBar: AppBar(
         backgroundColor: MyColors().mainColors,
         centerTitle: true,
-        title: Text("Participants :( $numOfParticipants )"),
+        title: BlocBuilder<ParticipantsBloc, ParticipantsState>(
+          builder: (context, state) {
+            if (state is ParticipantsLoaded) {
+              numOfParticipants = state.participants.length;
+            }
+            return Text("Participants: ($numOfParticipants)");
+          },
+        ),
       ),
       body: Center(
         child: SizedBox(
@@ -55,7 +55,7 @@ class _ParticipantsState extends State<Participants> {
               InkWell(
                 onTap: () {},
                 child: Text(
-                  "You can here find all participants in this class ",
+                  "You can here find all participants in this class",
                   style:
                       TextStyle(color: MyColors().mainColors, fontSize: 15.sp),
                 ),
@@ -67,125 +67,116 @@ class _ParticipantsState extends State<Participants> {
                 controller: searchCont,
                 style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
                 decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: MyColors().mainColors,
-                    ),
-                    hintText: "Search",
-                    hintStyle: TextStyle(
-                        fontSize: 15.sp, color: MyColors().mainColors),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.sp))),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(10.sp)))),
+                  prefixIcon: Icon(Icons.search, color: MyColors().mainColors),
+                  hintText: "Search by Name or ID",
+                  hintStyle:
+                      TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.sp)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.sp)),
+                  ),
+                ),
+                onChanged: (value) {
+                  context
+                      .read<ParticipantsBloc>()
+                      .add(FetchParticipants(classId, value));
+                },
               ),
               SizedBox(
                 height: 2.h,
               ),
               Expanded(
-                child: FutureBuilder<List<Map<String, dynamic>>>(
-                  future: getAllParticipants(classId.toString()),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
+                child: BlocBuilder<ParticipantsBloc, ParticipantsState>(
+                  builder: (context, state) {
+                    if (state is ParticipantsLoading) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
+                    }
+                    if (state is ParticipantsError) {
                       return Center(
-                        child: Text(
-                          "Error: ${snapshot.error}",
-                          style: TextStyle(
-                              fontSize: 15.sp, color: MyColors().mainColors),
-                        ),
+                        child: Text("Error: ${state.msg}",
+                            style: Styles().msgsStyles),
                       );
-                    } else if (!snapshot.hasData ||
-                        snapshot.data == null ||
-                        snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Text(
-                          "there's no students ",
-                          style: TextStyle(
-                              fontSize: 15.sp, color: MyColors().mainColors),
-                        ),
-                      );
-                    } else {
-                      numOfParticipants = snapshot.data!.length;
+                    } else if (state is ParticipantsLoaded) {
+                      numOfParticipants = state.participants.length;
 
-                      return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          var classData = snapshot.data![index];
-                          return Container(
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
+                      if (state.participants.isEmpty) {
+                        return Center(
+                          child: Text("there's no students",
+                              style: Styles().msgsStyles),
+                        );
+                      } else {
+                        return ListView.builder(
+                          itemCount: state.participants.length,
+                          itemBuilder: (context, index) {
+                            var classData = state.participants[index];
+                            return Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
                                     color: MyColors().mainColors,
                                     offset: const Offset(0, 0),
                                     blurRadius: 5,
                                     blurStyle: BlurStyle.outer,
-                                    spreadRadius: 1)
-                              ],
-                              borderRadius: BorderRadius.circular(
-                                10.sp,
+                                    spreadRadius: 1,
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(10.sp),
                               ),
-                            ),
-                            margin: EdgeInsets.all(5.sp),
-                            height: 9.h,
-                            child: ListTile(
-                              leading: Icon(
-                                Icons.person,
-                                color: MyColors().mainColors,
-                              ),
-                              title: Text(
-                                classData['studentName'],
-                                style: TextStyle(
-                                    fontSize: 15.sp,
+                              margin: EdgeInsets.all(5.sp),
+                              height: 9.h,
+                              child: ListTile(
+                                leading: Icon(Icons.person,
                                     color: MyColors().mainColors),
-                              ),
-                              trailing: InkWell(
-                                onTap: () {
-                                  Get.defaultDialog(
-                                    buttonColor: MyColors().mainColors,
-                                    cancelTextColor: MyColors().mainColors,
-                                    confirmTextColor: Colors.white,
-                                    title: "Delete ?",
-                                    titleStyle:
-                                        TextStyle(color: MyColors().mainColors),
-                                    content: Text(
-                                      "delete this participants",
-                                      style: TextStyle(
+                                title: Text(
+                                  classData['studentName'],
+                                  style: TextStyle(
+                                      fontSize: 15.sp,
+                                      color: MyColors().mainColors),
+                                ),
+                                trailing: InkWell(
+                                  onTap: () {
+                                    Get.defaultDialog(
+                                      buttonColor: MyColors().mainColors,
+                                      cancelTextColor: MyColors().mainColors,
+                                      confirmTextColor: Colors.white,
+                                      title: "Delete?",
+                                      titleStyle: TextStyle(
                                           color: MyColors().mainColors),
-                                    ),
-                                    onCancel: () {},
-                                    onConfirm: () async {
-                                      await deleteParticipant(
-                                          classId,
-                                          classData['studentName'],
-                                          classData['studentId']);
-                                      setState(() {
-                                        numOfParticipants -= 1;
-                                      });
-                                      setState(() {
-                                        snapshot.data!.removeAt(index);
-                                      });
-                                    },
-                                  );
-                                },
-                                child: Icon(
-                                  Icons.delete,
-                                  size: 25.sp,
-                                  color: MyColors().mainColors,
+                                      content: Text(
+                                        "delete this participants",
+                                        style: TextStyle(
+                                            color: MyColors().mainColors),
+                                      ),
+                                      onCancel: () {},
+                                      onConfirm: () {
+                                        context.read<ParticipantsBloc>().add(
+                                              DeleteParticipants(
+                                                  classId,
+                                                  classData['studentName'],
+                                                  classData['studentId']),
+                                            );
+                                      },
+                                    );
+                                  },
+                                  child: Icon(Icons.delete,
+                                      size: 25.sp,
+                                      color: MyColors().mainColors),
+                                ),
+                                subtitle: Text(
+                                  "ID: ${classData['studentId']}",
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: MyColors().mainColors),
                                 ),
                               ),
-                              subtitle: Text(
-                                "ID : ${classData['studentId']}",
-                                style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: MyColors().mainColors),
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                            );
+                          },
+                        );
+                      }
+                    } else {
+                      return Container();
                     }
                   },
                 ),
@@ -198,42 +189,65 @@ class _ParticipantsState extends State<Participants> {
                       cancelTextColor: MyColors().mainColors,
                       confirmTextColor: Colors.white,
                       onCancel: () {},
-                      onConfirm: () async {
-                        await addParticipant(
-                            classId, studentIdCont.text, studentNameCont.text);
-                        setState(() {
-                          numOfParticipants += 1;
-                        });
-                        studentIdCont.text = "";
-                        studentNameCont.text = "";
+                      onConfirm: () {
+                        if (_formKey.currentState!.validate()) {
+                          context.read<ParticipantsBloc>().add(
+                                AddParticipants(
+                                  classId,
+                                  studentIdCont.text,
+                                  studentNameCont.text,
+                                ),
+                              );
+                          studentIdCont.clear();
+                          studentNameCont.clear();
+                          Get.back();
+                        }
                       },
                       title: "New participant",
                       titleStyle: TextStyle(color: MyColors().mainColors),
-                      content: SizedBox(
-                        height: 17.h,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: studentNameCont,
-                              decoration: const InputDecoration(
-                                prefixIcon: Icon(Icons.abc),
-                                focusedBorder: OutlineInputBorder(),
-                                enabledBorder: OutlineInputBorder(),
-                                hintText: "Student Name",
+                      content: Form(
+                        key: _formKey,
+                        child: SizedBox(
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: studentNameCont,
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.abc),
+                                  focusedBorder: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(),
+                                  hintText: "Student Name",
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the student name';
+                                  }
+                                  return null;
+                                },
                               ),
-                            ),
-                            SizedBox(
-                              height: 1.h,
-                            ),
-                            TextFormField(
-                              controller: studentIdCont,
-                              decoration: const InputDecoration(
+                              SizedBox(height: 1.h),
+                              TextFormField(
+                                controller: studentIdCont,
+                                decoration: const InputDecoration(
                                   prefixIcon: Icon(Icons.perm_identity),
                                   focusedBorder: OutlineInputBorder(),
                                   enabledBorder: OutlineInputBorder(),
-                                  hintText: "Student ID"),
-                            ),
-                          ],
+                                  hintText: "Student ID",
+                                ),
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter the student ID';
+                                  }
+                                  final int? id = int.tryParse(value);
+                                  if (id == null || id <= 0) {
+                                    return 'Student ID must be a positive number';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -254,9 +268,7 @@ class _ParticipantsState extends State<Participants> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 2.h,
-              ),
+              SizedBox(height: 2.h),
             ],
           ),
         ),

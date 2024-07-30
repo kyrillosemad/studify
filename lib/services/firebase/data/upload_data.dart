@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studify/view/constants/colors.dart';
 
 Future<void> uploadAndSaveFile(String classId) async {
   // Show a loading dialog
@@ -51,21 +52,27 @@ Future<void> uploadAndSaveFile(String classId) async {
 
         Get.back();
 
-        Get.snackbar("Done", "File uploaded successfully.");
+        Get.snackbar("Done", "File uploaded successfully.",
+            backgroundColor: MyColors().mainColors.withOpacity(0.7),
+            colorText: Colors.white,
+            animationDuration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 1500));
       } catch (e) {
         Get.back();
 
-        print(e);
-        Get.snackbar("Failed", "Error uploading file.");
+        Get.snackbar("Failed", "Error uploading file.",
+            backgroundColor: MyColors().mainColors.withOpacity(0.7),
+            colorText: Colors.white,
+            animationDuration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 1500));
       }
     } else {
       Get.back();
 
-      print('No file selected');
+     
     }
   } else {
     Get.back();
 
-    print('File picker canceled');
   }
 }

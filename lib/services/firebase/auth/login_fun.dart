@@ -38,7 +38,8 @@ Future<void> loginFun(String email, String password, String type) async {
       }
 
       Get.snackbar("Success", "You have successfully logged in",
-          colorText: MyColors().mainColors,
+          backgroundColor: MyColors().mainColors.withOpacity(0.7),
+          colorText: Colors.white,
           animationDuration: const Duration(milliseconds: 500),
           duration: const Duration(milliseconds: 1500));
     } else {

@@ -67,7 +67,8 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
                     ),
                     hintText: "Search",
                     hintStyle: TextStyle(
-                        fontSize: 15.sp, color: MyColors().mainColors),
+                      fontSize: 15.sp,
+                    ),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.sp))),
                     focusedBorder: OutlineInputBorder(

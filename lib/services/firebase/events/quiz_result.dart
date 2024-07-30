@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:studify/view/constants/colors.dart';
 import 'package:studify/view/constants/shared.dart';
 
 Future<void> quizResult(String classId, String eventId, userAnswers) async {
@@ -65,9 +67,17 @@ Future<void> quizResult(String classId, String eventId, userAnswers) async {
       Get.back();
       Get.back();
       Get.back();
-      Get.snackbar("Done", "The Quiz is submitted successfully");
+      Get.snackbar("Done", "The Quiz is submitted successfully",
+          backgroundColor: MyColors().mainColors.withOpacity(0.7),
+          colorText: Colors.white,
+          animationDuration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 1500));
     }
   } catch (e) {
-    Get.snackbar("Failed", "There's something wrong");
+    Get.snackbar("Failed", "There's something wrong",
+        backgroundColor: MyColors().mainColors.withOpacity(0.7),
+        colorText: Colors.white,
+        animationDuration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1500));
   }
 }

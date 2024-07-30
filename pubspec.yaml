@@ -42,7 +42,6 @@ dependencies:
   get: ^4.6.4
   firebase_auth: ^4.15.3
   cloud_firestore: ^4.13.2
-  firebase_messaging: ^14.6.0
   shared_preferences: ^2.1.1
   barcode_widget: ^2.0.3
   flutter_barcode_scanner: ^2.0.0

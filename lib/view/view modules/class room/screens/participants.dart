@@ -69,8 +69,9 @@ class _ParticipantsState extends State<Participants> {
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search, color: MyColors().mainColors),
                   hintText: "Search by Name or ID",
-                  hintStyle:
-                      TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+                  hintStyle: TextStyle(
+                    fontSize: 15.sp,
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.sp)),
                   ),
@@ -200,7 +201,6 @@ class _ParticipantsState extends State<Participants> {
                               );
                           studentIdCont.clear();
                           studentNameCont.clear();
-                          Get.back();
                         }
                       },
                       title: "New participant",

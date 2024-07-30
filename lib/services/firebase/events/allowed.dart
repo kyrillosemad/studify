@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<bool?> getAllowedValue(
@@ -24,10 +26,9 @@ Future<bool?> getAllowedValue(
 
               for (var studentScore in studentsScores) {
                 if (studentScore['studentId'] == studentId) {
-                  // Convert the allowed value to a boolean
                   var allowedValueStr = studentScore['allowed']?.toString();
                   allowedValue = _parseToBool(allowedValueStr);
-                  return allowedValue; // Exit the loop once we find the allowed value
+                  return allowedValue;
                 }
               }
             }
@@ -35,9 +36,7 @@ Future<bool?> getAllowedValue(
         }
       }
     }
-  } catch (e) {
-    print("Error fetching allowed value: $e");
-  }
+  } catch (e) {}
 
   return allowedValue;
 }

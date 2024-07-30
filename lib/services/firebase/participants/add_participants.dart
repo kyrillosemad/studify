@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studify/view/constants/colors.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 addParticipant(String classId, String studentId, String studentName) async {
   Get.back();
@@ -28,27 +28,29 @@ addParticipant(String classId, String studentId, String studentName) async {
           .update({
         'participants': participants,
       }).then((_) async {
-        await FirebaseMessaging.instance.subscribeToTopic(classId);
-
         Get.snackbar("Success", "the student has been successfully added",
-            colorText: MyColors().mainColors,
+            backgroundColor: MyColors().mainColors.withOpacity(0.7),
+            colorText: Colors.white,
             animationDuration: const Duration(milliseconds: 500),
             duration: const Duration(milliseconds: 1500));
       }).catchError((error) {
         Get.snackbar("Failed", "there's something wrong",
-            colorText: MyColors().mainColors,
+            backgroundColor: MyColors().mainColors.withOpacity(0.7),
+            colorText: Colors.white,
             animationDuration: const Duration(milliseconds: 500),
             duration: const Duration(milliseconds: 1500));
       });
     } else {
       Get.snackbar("Failed", "there's something wrong",
-          colorText: MyColors().mainColors,
+          backgroundColor: MyColors().mainColors.withOpacity(0.7),
+          colorText: Colors.white,
           animationDuration: const Duration(milliseconds: 500),
           duration: const Duration(milliseconds: 1500));
     }
   }).catchError((error) {
     Get.snackbar("Failed", "there's something wrong",
-        colorText: MyColors().mainColors,
+        backgroundColor: MyColors().mainColors.withOpacity(0.7),
+        colorText: Colors.white,
         animationDuration: const Duration(milliseconds: 500),
         duration: const Duration(milliseconds: 1500));
   });

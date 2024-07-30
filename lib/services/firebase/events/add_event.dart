@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studify/services/firebase/participants/get_all_participants.dart';
+import 'package:studify/view/constants/colors.dart';
 
 addEvent(String classId, String eventName, String eventId, totalScore,
     questions) async {
@@ -44,8 +46,16 @@ addEvent(String classId, String eventName, String eventId, totalScore,
       "events": events,
     });
 
-    Get.snackbar("Done", "the event is added successfully");
+    Get.snackbar("Done", "the event is added successfully",
+        backgroundColor: MyColors().mainColors.withOpacity(0.7),
+        colorText: Colors.white,
+        animationDuration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1500));
   } catch (e) {
-    Get.snackbar("Failed", "there's something wrong");
+    Get.snackbar("Failed", "there's something wrong",
+        backgroundColor: MyColors().mainColors.withOpacity(0.7),
+        colorText: Colors.white,
+        animationDuration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1500));
   }
 }

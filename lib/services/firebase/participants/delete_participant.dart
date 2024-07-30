@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studify/view/constants/colors.dart';
 
@@ -24,16 +24,16 @@ deleteParticipant(classId, studentName, studentId) async {
                   .doc(classId)
                   .update({"participants": participants});
             }));
-    await FirebaseMessaging.instance.unsubscribeFromTopic('$classId');
 
     Get.snackbar("Success", "the participant is leaved",
-        colorText: MyColors().mainColors,
+        backgroundColor: MyColors().mainColors.withOpacity(0.7),
+        colorText: Colors.white,
         animationDuration: const Duration(milliseconds: 500),
         duration: const Duration(milliseconds: 1500));
   } catch (e) {
-
-    Get.snackbar("Failed", "there's something wrong",
-        colorText: MyColors().mainColors,
+    Get.snackbar("Failed", "there's something wrong ",
+        backgroundColor: MyColors().mainColors.withOpacity(0.7),
+        colorText: Colors.white,
         animationDuration: const Duration(milliseconds: 500),
         duration: const Duration(milliseconds: 1500));
   }

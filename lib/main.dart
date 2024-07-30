@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:studify/view%20model/class/bloc/class_bloc.dart';
+import 'package:studify/view%20model/data/bloc/data_bloc.dart';
 import 'package:studify/view%20model/degrees/bloc/degrees_bloc.dart';
 import 'package:studify/view%20model/events/bloc/events_bloc.dart';
 import 'package:studify/view%20model/participants/bloc/participants_bloc.dart';
@@ -20,11 +22,10 @@ void main() async {
   Platform.isAndroid
       ? await Firebase.initializeApp(
           options: const FirebaseOptions(
-            apiKey: "AIzaSyC3T60AV7BE6RDCqpQLjrlNnSam5Ii4MJY", //current key
-            appId:
-                "1:620553618045:android:148dddc06629cb94a36714", //mobile sdk app id
-            messagingSenderId: "620553618045", //project number
-            projectId: "studify-59b93", //project id
+            apiKey: "AIzaSyC3T60AV7BE6RDCqpQLjrlNnSam5Ii4MJY",
+            appId: "1:620553618045:android:148dddc06629cb94a36714",
+            messagingSenderId: "620553618045",
+            projectId: "studify-59b93",
           ),
         )
       : await Firebase.initializeApp();
@@ -44,10 +45,16 @@ class MyApp extends StatelessWidget {
               create: (context) => ParticipantsBloc(),
             ),
             BlocProvider(
+              create: (context) => ClassBloc(),
+            ),
+            BlocProvider(
               create: (context) => EventsBloc(),
             ),
             BlocProvider(
               create: (context) => DegreesBloc(),
+            ),
+            BlocProvider(
+              create: (context) => DataBloc(),
             ),
           ],
           child: GetMaterialApp(

@@ -28,11 +28,11 @@ class ParticipantsBloc extends Bloc<ParticipantsEvent, ParticipantsState> {
                 element['studentName']
                     .toString()
                     .toLowerCase()
-                    .contains(searchQueryLower) ||
+                    .startsWith(searchQueryLower) ||
                 element['studentId']
                     .toString()
                     .toLowerCase()
-                    .contains(searchQueryLower))
+                    .startsWith(searchQueryLower))
             .toList();
         emit(ParticipantsLoaded(filteredParticipants));
       }

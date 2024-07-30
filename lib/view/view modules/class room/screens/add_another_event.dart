@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/services/firebase/degrees/change_student_score.dart';
 import 'package:studify/services/firebase/degrees/get_students_degrees_in_event.dart';
+import 'package:studify/view%20model/degrees/bloc/degrees_bloc.dart';
 import 'package:studify/view%20model/events/bloc/events_bloc.dart';
 import 'package:studify/view/constants/colors.dart';
 
@@ -25,7 +26,6 @@ class _AddAnotherEventState extends State<AddAnotherEvent> {
   final classId = Get.arguments['classId'];
   late final String eventId = Random().nextInt(1000000).toString();
 
-  // StreamController to manage search input
   final StreamController<String> _searchController =
       StreamController<String>.broadcast();
 
@@ -225,7 +225,9 @@ class _AddAnotherEventState extends State<AddAnotherEvent> {
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: MyColors().mainColors),
         hintText: hintText,
-        hintStyle: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+        hintStyle: TextStyle(
+          fontSize: 15.sp,
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: MyColors().mainColors),
           borderRadius: BorderRadius.circular(10.sp),
@@ -255,12 +257,11 @@ class _AddAnotherEventState extends State<AddAnotherEvent> {
             if (score != null &&
                 score >= 0 &&
                 score <= int.parse(totalScoreCont.text)) {
-              await changeStudentScore(
-                  classId, participant['studentId'], newScore, eventId);
-              setState(() {});
-              newScoreCont.clear();
-              Get.back();
+              context.read<DegreesBloc>().add(changeStudentScore(
+                  classId, participant['studentId'], newScore, eventId));
+             
             } else {
+              newScoreCont.clear();
               Get.snackbar(
                 "Invalid Score",
                 "Please enter a valid score between 0 and ${totalScoreCont.text}",

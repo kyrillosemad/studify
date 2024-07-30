@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 changeStudentScore(
     String classId, String studentId, String newScore, eventId) async {
   Get.back();
+
   var querySnapshot = await FirebaseFirestore.instance
       .collection("classes")
       .where("id", isEqualTo: classId)
@@ -24,9 +25,7 @@ changeStudentScore(
               studentScore['studentScore'] = newScore;
             }
           }
-        } else {
-          print("No studentsScores field found in event: $event");
-        }
+        } else {}
       }
 
       await FirebaseFirestore.instance

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studify/view/constants/colors.dart';
 
 enrollInAbsence(String classId, String eventId, String studentName,
     String studentId) async {
@@ -25,9 +27,9 @@ enrollInAbsence(String classId, String eventId, String studentName,
                 student['studentScore'] = event['totalScore'];
               }
             }
-            updatedEvents.add(event); 
+            updatedEvents.add(event);
           } else {
-            updatedEvents.add(event); 
+            updatedEvents.add(event);
           }
         }
 
@@ -39,15 +41,31 @@ enrollInAbsence(String classId, String eventId, String studentName,
             "events": updatedEvents,
           });
           Get.snackbar(
-              "Done", "You have successfully registered your attendance");
+              "Done", "You have successfully registered your attendance",
+              backgroundColor: MyColors().mainColors.withOpacity(0.7),
+              colorText: Colors.white,
+              animationDuration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 1500));
         } else {
-          Get.snackbar("Error", "Event ID is incorrect");
+          Get.snackbar("Error", "Event ID is incorrect",
+              backgroundColor: MyColors().mainColors.withOpacity(0.7),
+              colorText: Colors.white,
+              animationDuration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 1500));
         }
       } else {
-        Get.snackbar("Error", "Class not found");
+        Get.snackbar("Error", "Class not found",
+            backgroundColor: MyColors().mainColors.withOpacity(0.7),
+            colorText: Colors.white,
+            animationDuration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 1500));
       }
     });
   } catch (e) {
-    Get.snackbar("Failed", "There's something wrong");
+    Get.snackbar("Failed", "There's something wrong",
+        backgroundColor: MyColors().mainColors.withOpacity(0.7),
+        colorText: Colors.white,
+        animationDuration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 1500));
   }
 }

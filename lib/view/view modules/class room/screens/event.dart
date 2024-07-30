@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/services/firebase/degrees/change_student_score.dart';
 import 'package:studify/services/firebase/degrees/get_students_degrees_in_event.dart';
+import 'package:studify/view%20model/degrees/bloc/degrees_bloc.dart';
 import 'package:studify/view/constants/colors.dart';
 import 'dart:async';
 
@@ -99,7 +101,8 @@ class _EventPageState extends State<EventPage> {
                           Icon(Icons.search, color: MyColors().mainColors),
                       hintText: "Search by Name or ID",
                       hintStyle: TextStyle(
-                          fontSize: 15.sp, color: MyColors().mainColors),
+                        fontSize: 15.sp,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.sp)),
                       ),
@@ -145,15 +148,17 @@ class _EventPageState extends State<EventPage> {
                                       if (newScore != null &&
                                           newScore >= 0 &&
                                           newScore <= int.parse(totalScore)) {
-                                        await changeStudentScore(
-                                            classId,
-                                            snapshot.data![index]['studentId'],
-                                            newScoreCont.text,
-                                            eventId);
-                                        setState(() {});
-
-                                        newScoreCont.text = "";
+                                        context.read<DegreesBloc>().add(
+                                            changeStudentScore(
+                                                classId,
+                                                snapshot.data![index]
+                                                    ['studentId'],
+                                                newScoreCont.text,
+                                                eventId));
+                                        
                                       } else {
+                                        
+                                        newScoreCont.text = "";
                                         Get.snackbar(
                                           "Invalid Score",
                                           "Please enter a valid score between 0 and $totalScore",

@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studify/view/constants/shared.dart';
 
@@ -13,9 +15,7 @@ Future<List<Map<String, dynamic>>> getMyClassesForDoctor() async {
     for (var doc in querySnapshot.docs) {
       classList.add(doc.data() as Map<String, dynamic>);
     }
-  } catch (e) {
-    print("Error getting classes: $e");
-  }
+  } catch (e) {}
 
   return classList;
 }

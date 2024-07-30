@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:studify/view/constants/shared.dart';
 
@@ -27,6 +29,5 @@ Future<void> sendMsg(String classId, String msg) async {
       "chat": msgs,
     });
   } catch (e) {
-    print("Error: $e");
   }
 }

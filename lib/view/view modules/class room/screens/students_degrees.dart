@@ -61,8 +61,9 @@ class _StudentsDegreeState extends State<StudentsDegree> {
                     color: MyColors().mainColors,
                   ),
                   hintText: "Search By Name or ID",
-                  hintStyle:
-                      TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+                  hintStyle: TextStyle(
+                    fontSize: 15.sp,
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.sp)),
                   ),

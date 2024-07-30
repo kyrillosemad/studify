@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<List<Map<String, dynamic>>> getAllParticipants(classId) async {
@@ -14,4 +16,3 @@ Future<List<Map<String, dynamic>>> getAllParticipants(classId) async {
           }));
   return participants;
 }
-

@@ -17,7 +17,8 @@ class DataBloc extends Bloc<DataEvent, DataState> {
   Future<void> addDataFun(AddData event, Emitter<DataState> emit) async {
     try {
       await uploadAndSaveFile(event.classId);
-      emit(DataSuccess());
+
+      add(GetData(event.classId, ''));
     } catch (e) {
       emit(DataError(e.toString()));
     }
@@ -35,11 +36,12 @@ class DataBloc extends Bloc<DataEvent, DataState> {
             return DataLoaded(data);
           } else {
             var filteredData = data
-                .where((element) => element
+                .where((element) => element['name']
                     .toString()
                     .toLowerCase()
-                    .contains(event.searchQuery.toLowerCase()))
+                    .startsWith(event.searchQuery))
                 .toList();
+
             return DataLoaded(filteredData);
           }
         },
@@ -53,7 +55,7 @@ class DataBloc extends Bloc<DataEvent, DataState> {
   Future<void> deleteDataFun(DeleteData event, Emitter<DataState> emit) async {
     try {
       await deleteData(event.classId, event.dataId, event.dataUrl);
-      emit(DataSuccess());
+      add(GetData(event.classId, ''));
     } catch (e) {
       emit(DataError(e.toString()));
     }

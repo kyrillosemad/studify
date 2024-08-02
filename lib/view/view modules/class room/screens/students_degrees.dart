@@ -5,7 +5,8 @@ import 'package:sizer/sizer.dart';
 import 'package:studify/view%20model/participants/bloc/participants_bloc.dart';
 import 'package:studify/view/constants/colors.dart';
 import 'package:studify/view/constants/styles.dart';
-import 'package:studify/view/view%20modules/class%20room/screens/one_student_degree.dart';
+import 'package:studify/view/shared_widgets/search_field.dart';
+import 'package:studify/view/view%20modules/class%20room/widgets/participants_part.dart';
 
 class StudentsDegree extends StatefulWidget {
   const StudentsDegree({super.key});
@@ -52,31 +53,14 @@ class _StudentsDegreeState extends State<StudentsDegree> {
               SizedBox(
                 height: 2.h,
               ),
-              TextFormField(
-                controller: searchCont,
-                style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: MyColors().mainColors,
-                  ),
-                  hintText: "Search By Name or ID",
-                  hintStyle: TextStyle(
-                    fontSize: 15.sp,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.sp)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.sp)),
-                  ),
-                ),
-                onChanged: (value) {
-                  context
-                      .read<ParticipantsBloc>()
-                      .add(FetchParticipants(classId, value));
-                },
-              ),
+              SearchField(
+                  hint: "Search By Name or ID",
+                  onChanged: (value) {
+                    context
+                        .read<ParticipantsBloc>()
+                        .add(FetchParticipants(classId, value));
+                  },
+                  type: TextInputType.text),
               SizedBox(
                 height: 2.h,
               ),
@@ -96,40 +80,10 @@ class _StudentsDegreeState extends State<StudentsDegree> {
                           ),
                         );
                       } else {
-                        return ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: state.participants.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                Get.to(const OneStudentDegree(), arguments: {
-                                  "studentName": state.participants[index]
-                                      ['studentName'],
-                                  "studentId": state.participants[index]
-                                      ['studentId'],
-                                  "classId": classId,
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsets.all(5.sp),
-                                decoration: BoxDecoration(
-                                  color: MyColors().mainColors.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(10.sp),
-                                ),
-                                child: ListTile(
-                                  title: Text(
-                                    state.participants[index]['studentName']
-                                        .toString(),
-                                  ),
-                                  subtitle: Text(
-                                    "ID: ${state.participants[index]['studentId'].toString()}",
-                                  ),
-                                  leading: const Icon(Icons.event),
-                                ),
-                              ),
-                            );
-                          },
-                        );
+                        return ParticipantsPart(
+                            type: "studentsDegrees",
+                            classId: classId,
+                            state: state.participants);
                       }
                     } else if (state is ParticipantsError) {
                       return Center(

@@ -24,10 +24,10 @@ class DegreesBloc extends Bloc<DegreesEvent, DegreesState> {
         emit(DegreesLoaded(studentScoresInEvents));
       } else {
         studentScoresInEvents = studentScoresInEvents
-            .where((element) => element
+            .where((element) => element['eventName']
                 .toString()
                 .toLowerCase()
-                .contains(event.searchQuery.toLowerCase()))
+                .startsWith(event.searchQuery))
             .toList();
         emit(DegreesLoaded(studentScoresInEvents));
       }

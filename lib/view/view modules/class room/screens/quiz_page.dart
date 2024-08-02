@@ -4,6 +4,8 @@ import 'package:sizer/sizer.dart';
 import 'package:studify/services/firebase/events/get_quiz.dart';
 import 'package:studify/services/firebase/events/quiz_result.dart';
 import 'package:studify/view/constants/colors.dart';
+import 'package:studify/view/view%20modules/class%20room/widgets/quiz_option_row.dart';
+import 'package:studify/view/view%20modules/class%20room/widgets/send_button.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -61,28 +63,48 @@ class _QuizPageState extends State<QuizPage> {
                                     style: TextStyle(fontSize: 15.sp),
                                   ),
                                   SizedBox(height: 1.h),
-                                  _buildOptionRow(
-                                    answers[index],
-                                    snapshot.data[index]['op1'],
-                                    "1",
+                                  QuizOptionRow(
+                                    answer: answers[index],
+                                    optionText: snapshot.data[index]['op1'],
+                                    value: "1",
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        answers[index].answer = newValue!;
+                                      });
+                                    },
                                   ),
                                   SizedBox(height: 1.h),
-                                  _buildOptionRow(
-                                    answers[index],
-                                    snapshot.data[index]['op2'],
-                                    "2",
+                                  QuizOptionRow(
+                                    answer: answers[index],
+                                    optionText: snapshot.data[index]['op2'],
+                                    value: "2",
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        answers[index].answer = newValue!;
+                                      });
+                                    },
                                   ),
                                   SizedBox(height: 1.h),
-                                  _buildOptionRow(
-                                    answers[index],
-                                    snapshot.data[index]['op3'],
-                                    "3",
+                                  QuizOptionRow(
+                                    answer: answers[index],
+                                    optionText: snapshot.data[index]['op3'],
+                                    value: "3",
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        answers[index].answer = newValue!;
+                                      });
+                                    },
                                   ),
                                   SizedBox(height: 1.h),
-                                  _buildOptionRow(
-                                    answers[index],
-                                    snapshot.data[index]['op4'],
-                                    "4",
+                                  QuizOptionRow(
+                                    answer: answers[index],
+                                    optionText: snapshot.data[index]['op4'],
+                                    value: "4",
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        answers[index].answer = newValue!;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -103,8 +125,8 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 SizedBox(height: 1.h),
-                InkWell(
-                  onTap: () {
+                SendButton(
+                  onPressed: () {
                     Get.defaultDialog(
                       buttonColor: MyColors().mainColors,
                       cancelTextColor: MyColors().mainColors,
@@ -123,48 +145,12 @@ class _QuizPageState extends State<QuizPage> {
                       },
                     );
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    width: 80.w,
-                    height: 8.h,
-                    child: Center(
-                      child: Text(
-                        "Send",
-                        style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildOptionRow(Answers answer, String optionText, String value) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 10.w,
-          child: Radio<String>(
-            value: value,
-            groupValue: answer.answer,
-            onChanged: (value) {
-              setState(() {
-                answer.answer = value!;
-              });
-            },
-          ),
-        ),
-        Expanded(
-          child: Text(optionText),
-        ),
-      ],
     );
   }
 }

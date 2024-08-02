@@ -5,6 +5,8 @@ import 'package:sizer/sizer.dart';
 import 'package:studify/view%20model/degrees/bloc/degrees_bloc.dart';
 import 'package:studify/view/constants/colors.dart';
 import 'package:studify/view/constants/styles.dart';
+import 'package:studify/view/shared_widgets/search_field.dart';
+import 'package:studify/view/view%20modules/class%20room/widgets/one_student_degree_part.dart';
 
 class OneStudentDegree extends StatefulWidget {
   const OneStudentDegree({super.key});
@@ -23,12 +25,6 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
   void initState() {
     super.initState();
     context.read<DegreesBloc>().add(GetStudentDegrees(classId, studentId, ''));
-  }
-
-  void _onSearchChanged() {
-    context
-        .read<DegreesBloc>()
-        .add(GetStudentDegrees(classId, studentId, searchCont.text));
   }
 
   @override
@@ -56,25 +52,12 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
               SizedBox(
                 height: 2.h,
               ),
-              TextFormField(
-                controller: searchCont,
-                onChanged: (value) => _onSearchChanged(),
-                style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
-                decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: MyColors().mainColors,
-                    ),
-                    hintText: "Search",
-                    hintStyle: TextStyle(
-                      fontSize: 15.sp,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.sp))),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(10.sp)))),
-              ),
+              SearchField(
+                  hint: "Search",
+                  onChanged: (value) => context
+                      .read<DegreesBloc>()
+                      .add(GetStudentDegrees(classId, studentId, value)),
+                  type: TextInputType.text),
               SizedBox(
                 height: 2.h,
               ),
@@ -112,47 +95,8 @@ class _OneStudentDegreeState extends State<OneStudentDegree> {
                         return Column(
                           children: [
                             Expanded(
-                              child: ListView.builder(
-                                itemCount: state.degrees.length,
-                                itemBuilder: (context, index) {
-                                  var classData = state.degrees[index];
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: MyColors().mainColors,
-                                          offset: const Offset(0, 0),
-                                          blurRadius: 5,
-                                          blurStyle: BlurStyle.outer,
-                                          spreadRadius: 1,
-                                        ),
-                                      ],
-                                      borderRadius:
-                                          BorderRadius.circular(10.sp),
-                                    ),
-                                    margin: EdgeInsets.all(8.sp),
-                                    child: ListTile(
-                                      leading: Icon(
-                                        Icons.class_,
-                                        color: MyColors().mainColors,
-                                      ),
-                                      title: Text(
-                                        classData['eventName'],
-                                        style: TextStyle(
-                                            fontSize: 15.sp,
-                                            color: MyColors().mainColors),
-                                      ),
-                                      trailing: Text(
-                                        "Score: ${classData['studentScore'].toStringAsFixed(1)} / ${classData['totalScore'].toStringAsFixed(1)}",
-                                        style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: MyColors().mainColors),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
+                                child:
+                                    OneStudentDegreePart(state: state.degrees)),
                             SizedBox(height: 2.h),
                             Text(
                               "Total Score: ${totalScore.toStringAsFixed(1)} / ${highTotalScore.toStringAsFixed(1)}",

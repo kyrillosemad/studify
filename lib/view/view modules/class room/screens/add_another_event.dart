@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/services/firebase/degrees/change_student_score.dart';
 import 'package:studify/services/firebase/degrees/get_students_degrees_in_event.dart';
-import 'package:studify/view%20model/degrees/bloc/degrees_bloc.dart';
-import 'package:studify/view%20model/events/bloc/events_bloc.dart';
 import 'package:studify/view/constants/colors.dart';
+import 'package:studify/view/view%20modules/class%20room/widgets/form_field.dart';
+import 'package:studify/view/view%20modules/class%20room/widgets/new_event_button.dart';
+import 'package:studify/view/view%20modules/class%20room/widgets/participant_card.dart';
 
 class AddAnotherEvent extends StatefulWidget {
   const AddAnotherEvent({super.key});
@@ -82,89 +81,22 @@ class _AddAnotherEventState extends State<AddAnotherEvent> {
           child: Column(
             children: [
               SizedBox(height: 2.h),
-              InkWell(
-                onTap: () {
-                  Get.defaultDialog(
-                    buttonColor: MyColors().mainColors,
-                    cancelTextColor: MyColors().mainColors,
-                    confirmTextColor: Colors.white,
-                    title: "Create New Event",
-                    titleStyle: TextStyle(color: MyColors().mainColors),
-                    content: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          _buildTextField(
-                            controller: eventNameCont,
-                            hintText: "Event Name",
-                            icon: Icons.event,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Event Name cannot be empty';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 2.h),
-                          _buildTextField(
-                            controller: totalScoreCont,
-                            hintText: "Total Score",
-                            icon: Icons.score,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Total Score cannot be empty';
-                              }
-                              final score = int.tryParse(value);
-                              if (score == null) {
-                                return 'Total Score must be a valid number';
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    onCancel: () {},
-                    onConfirm: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        final eventName = eventNameCont.text.trim();
-                        final totalScore =
-                            int.parse(totalScoreCont.text.trim());
-
-                        setState(() {
-                          context.read<EventsBloc>().add(AddEvent(classId,
-                              eventName, eventId, totalScore.toString(), []));
-                          Get.back();
-                        });
-                      }
-                    },
-                  );
-                },
-                child: Container(
-                  width: 90.w,
-                  height: 6.h,
-                  decoration: BoxDecoration(
-                    color: MyColors().mainColors,
-                    borderRadius: BorderRadius.circular(10.sp),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "New Event",
-                      style: TextStyle(fontSize: 13.sp, color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
+              NewEventButton(
+                  name: "New Event",
+                  classId: classId,
+                  eventId: eventId,
+                  eventNameCont: eventNameCont,
+                  formKey: _formKey,
+                  totalScoreCont: totalScoreCont),
               SizedBox(height: 3.h),
-              _buildTextField(
-                controller: searchCont,
-                hintText: "Search by Name or ID",
-                icon: Icons.search,
-                validator: (String? value) {
-                  return null;
-                },
-              ),
+              FormFieldPart(
+                  controller: searchCont,
+                  hint: "Search by Name or ID",
+                  icon: Icons.search,
+                  validator: (String? value) {
+                    return null;
+                  },
+                  keyboardType: TextInputType.text),
               SizedBox(height: 3.h),
               Text(
                 "<< All Participants >>",
@@ -186,14 +118,12 @@ class _AddAnotherEventState extends State<AddAnotherEvent> {
                           return const Center(
                               child: CircularProgressIndicator());
                         } else if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return _buildParticipantCard(
-                                  snapshot.data![index]);
-                            },
-                          );
+                          return ParticipantsCard(
+                              participants: snapshot.data,
+                              classId: classId,
+                              newScoreCont: newScoreCont,
+                              totalScoreCont: totalScoreCont,
+                              eventId: eventId);
                         } else if (snapshot.hasError) {
                           return const Center(
                               child: Text("There's something wrong"));
@@ -206,116 +136,6 @@ class _AddAnotherEventState extends State<AddAnotherEvent> {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required IconData icon,
-    TextInputType keyboardType = TextInputType.text,
-    required FormFieldValidator<String> validator,
-  }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: MyColors().mainColors),
-        hintText: hintText,
-        hintStyle: TextStyle(
-          fontSize: 15.sp,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: MyColors().mainColors),
-          borderRadius: BorderRadius.circular(10.sp),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: MyColors().mainColors.withOpacity(0.5)),
-          borderRadius: BorderRadius.circular(10.sp),
-        ),
-      ),
-      style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
-      validator: validator,
-    );
-  }
-
-  Widget _buildParticipantCard(Map<String, dynamic> participant) {
-    return InkWell(
-      onTap: () {
-        Get.defaultDialog(
-          buttonColor: MyColors().mainColors,
-          cancelTextColor: MyColors().mainColors,
-          confirmTextColor: Colors.white,
-          onCancel: () {},
-          onConfirm: () async {
-            final newScore = newScoreCont.text.trim();
-            final score = int.tryParse(newScore);
-
-            if (score != null &&
-                score >= 0 &&
-                score <= int.parse(totalScoreCont.text)) {
-              context.read<DegreesBloc>().add(changeStudentScore(
-                  classId, participant['studentId'], newScore, eventId));
-             
-            } else {
-              newScoreCont.clear();
-              Get.snackbar(
-                "Invalid Score",
-                "Please enter a valid score between 0 and ${totalScoreCont.text}",
-                backgroundColor: MyColors().mainColors,
-                colorText: Colors.white,
-              );
-            }
-          },
-          title: "Change Score",
-          titleStyle: TextStyle(color: MyColors().mainColors),
-          content: SizedBox(
-            child: Column(
-              children: [
-                _buildTextField(
-                  controller: newScoreCont,
-                  hintText: "New Score",
-                  icon: Icons.score,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'New Score cannot be empty';
-                    }
-                    final score = int.tryParse(value);
-                    if (score == null) {
-                      return 'New Score must be a valid number';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 1.h),
-              ],
-            ),
-          ),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: participant['studentScore'] == "0" ? Colors.red : Colors.green,
-          borderRadius: BorderRadius.circular(15.sp),
-        ),
-        margin: EdgeInsets.all(5.sp),
-        child: ListTile(
-          leading: const Icon(Icons.person, color: Colors.white),
-          title: Text(
-            participant['studentName'],
-            style: const TextStyle(color: Colors.white),
-          ),
-          subtitle: Text(
-            participant['studentId'],
-            style: const TextStyle(color: Colors.white70),
-          ),
-          trailing: Text(
-            "Score: ${participant['studentScore']}",
-            style: const TextStyle(color: Colors.white),
           ),
         ),
       ),

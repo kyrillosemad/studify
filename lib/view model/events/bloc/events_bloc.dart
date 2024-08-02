@@ -69,10 +69,11 @@ class EventsBloc extends Bloc<EventsEvent, EventsState> {
       if (event.searchQuery.isEmpty) {
         emit(EventsLoaded(events));
       } else {
-        String searchQueryLower = event.searchQuery.toLowerCase();
         List filteredEvents = events
-            .where((element) =>
-                element.toString().toLowerCase().contains(searchQueryLower))
+            .where((element) => element['eventName']
+                .toString()
+                .toLowerCase()
+                .startsWith(event.searchQuery))
             .toList();
         emit(EventsLoaded(filteredEvents));
       }

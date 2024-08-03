@@ -44,88 +44,90 @@ class _MakeQuizState extends State<MakeQuiz> {
         padding: EdgeInsets.all(4.w),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 2.h),
-              FormFieldPart(
-                keyboardType: TextInputType.text,
-                controller: quizNameCont,
-                hint: "Enter Quiz Name",
-                icon: Icons.title,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Quiz Name cannot be empty.";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 2.h),
-              FormFieldPart(
-                controller: quizScoreCont,
-                hint: "Enter Quiz Score",
-                icon: Icons.score,
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Quiz Score cannot be empty.";
-                  }
-                  final number = int.tryParse(value);
-                  if (number == null || number <= 0) {
-                    return "Quiz Score must be a valid number greater than 0.";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 2.h),
-              Divider(thickness: 1.5, color: MyColors().mainColors),
-              SizedBox(height: 2.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Questions",
-                    style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: MyColors().mainColors),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      setState(() {
-                        numOfQuestions++;
-                        questions.add(QuizQuestion());
-                      });
-                    },
-                    icon: const Icon(Icons.add),
-                    label: const Text("Add"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.sp),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 8.sp, vertical: 4.sp),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 2.h),
+                FormFieldPart(
+                  keyboardType: TextInputType.text,
+                  controller: quizNameCont,
+                  hint: "Enter Quiz Name",
+                  icon: Icons.title,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Quiz Name cannot be empty.";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 2.h),
+                FormFieldPart(
+                  controller: quizScoreCont,
+                  hint: "Enter Quiz Score",
+                  icon: Icons.score,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Quiz Score cannot be empty.";
+                    }
+                    final number = int.tryParse(value);
+                    if (number == null || number <= 0) {
+                      return "Quiz Score must be a valid number greater than 0.";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 2.h),
+                Divider(thickness: 1.5, color: MyColors().mainColors),
+                SizedBox(height: 2.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Questions",
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: MyColors().mainColors),
                     ),
-                  )
-                ],
-              ),
-              SizedBox(height: 2.h),
-              QuestionsPart(
-                numOfQuestions: numOfQuestions,
-                questions: questions,
-                onRemoveQuestion: _removeQuestion,
-              ),
-              SizedBox(height: 2.h),
-              SaveQuizButton(
-                formKey: _formKey,
-                classId: classId,
-                quizName: quizNameCont.text,
-                eventId: eventId,
-                quizScore: quizScoreCont.text,
-                questions: questions,
-              ),
-            ],
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          numOfQuestions++;
+                          questions.add(QuizQuestion());
+                        });
+                      },
+                      icon: const Icon(Icons.add),
+                      label: const Text("Add"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.sp),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.sp, vertical: 4.sp),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 2.h),
+                QuestionsPart(
+                  numOfQuestions: numOfQuestions,
+                  questions: questions,
+                  onRemoveQuestion: _removeQuestion,
+                ),
+                SizedBox(height: 2.h),
+                SaveQuizButton(
+                  formKey: _formKey,
+                  classId: classId,
+                  quizName: quizNameCont.text,
+                  eventId: eventId,
+                  quizScore: quizScoreCont.text,
+                  questions: questions,
+                ),
+              ],
+            ),
           ),
         ),
       ),

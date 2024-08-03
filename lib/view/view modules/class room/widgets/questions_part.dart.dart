@@ -1,5 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/view/view%20modules/class%20room/widgets/form_field.dart';
@@ -24,14 +23,13 @@ class QuestionsPart extends StatefulWidget {
 class _QuestionsPartState extends State<QuestionsPart> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: widget.numOfQuestions,
-        itemBuilder: (BuildContext context, int index) {
-          return _buildQuestionCard(index);
-        },
-      ),
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: widget.numOfQuestions,
+      itemBuilder: (BuildContext context, int index) {
+        return _buildQuestionCard(index);
+      },
     );
   }
 

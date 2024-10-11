@@ -16,7 +16,7 @@ Professors can upload and delete data
 Students can access shared data and review grades
 Screenshots:
 Login and Sign Up
-<img src="https://github.com/user-attachments/assets/47c6ff9d-47a4-4aa2-b63c-c91e2c28b10c" alt="Login Page" width="600">
+<img src="https://github.com/user-attachments/assets/47c6ff9d-47a4-4aa2-b63c-c91e2c28b10c" alt="Login Page" width="400">
 Classrooms
 <img src="https://github.com/user-attachments/assets/c8f49877-17fd-40a3-9339-bb5581270461" alt="Classrooms" width="600">
 Participants

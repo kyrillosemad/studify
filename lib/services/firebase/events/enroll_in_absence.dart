@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studify/view/constants/colors.dart';
+import 'package:studify/core/constants/colors.dart';
+
 
 enrollInAbsence(String classId, String eventId, String studentName,
     String studentId) async {

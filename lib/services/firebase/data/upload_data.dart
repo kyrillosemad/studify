@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studify/view/constants/colors.dart';
+import 'package:studify/core/constants/colors.dart';
 
 Future<void> uploadAndSaveFile(String classId) async {
   // Show a loading dialog

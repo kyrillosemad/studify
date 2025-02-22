@@ -2,8 +2,9 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studify/view/constants/colors.dart';
-import 'package:studify/view/constants/shared.dart';
+import 'package:studify/core/constants/colors.dart';
+import 'package:studify/core/constants/shared.dart';
+
 
 addClassFun(name, date) async {
   int randomNumber = Random().nextInt(1000000);

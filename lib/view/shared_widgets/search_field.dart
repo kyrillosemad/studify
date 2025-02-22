@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/view/constants/colors.dart';
+import 'package:studify/core/constants/colors.dart';
 
 class SearchField extends StatelessWidget {
   String hint;

@@ -1,7 +1,7 @@
 // ignore_for_file: empty_catches
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:studify/view/constants/shared.dart';
+import 'package:studify/core/constants/shared.dart';
 
 Future<List<Map<String, dynamic>>> getMyClassesForDoctor() async {
   List<Map<String, dynamic>> classList = [];

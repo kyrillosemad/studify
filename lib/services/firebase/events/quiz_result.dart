@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:studify/view/constants/colors.dart';
-import 'package:studify/view/constants/shared.dart';
+import 'package:studify/core/constants/colors.dart';
+import 'package:studify/core/constants/shared.dart';
 
 Future<void> quizResult(String classId, String eventId, userAnswers) async {
   List<String> correctAnswers = [];

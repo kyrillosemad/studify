@@ -3,7 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studify/view/constants/colors.dart';
+import 'package:studify/core/constants/colors.dart';
+
 
 deleteParticipant(classId, studentName, studentId) async {
   List<dynamic> participants = [];

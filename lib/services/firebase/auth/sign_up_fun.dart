@@ -2,8 +2,10 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studify/view/constants/colors.dart';
-import 'package:studify/view/view%20modules/auth/screens/login.dart';
+import 'package:studify/core/constants/colors.dart';
+
+import '../../../view/modules/auth/screens/login.dart';
+
 
 signUpFun(username, email, password, type) {
   try {
@@ -21,7 +23,7 @@ signUpFun(username, email, password, type) {
         colorText: Colors.white,
         animationDuration: const Duration(milliseconds: 500),
         duration: const Duration(milliseconds: 1500));
-    Get.offAll(const Login());
+    Get.offAll(const LoginPage());
   } catch (e) {
     Get.snackbar("obs!", "there's something wrong",
         backgroundColor: MyColors().mainColors.withOpacity(0.7),

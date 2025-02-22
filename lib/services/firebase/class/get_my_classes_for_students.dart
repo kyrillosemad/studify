@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:studify/view/constants/shared.dart';
+import 'package:studify/core/constants/shared.dart';
+
 
 Future<List<Map<String, dynamic>>> getMyClassesForStudents() async {
   List<Map<String, dynamic>> classes = [];

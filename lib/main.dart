@@ -3,22 +3,25 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/view%20model/class/bloc/class_bloc.dart';
-import 'package:studify/view%20model/data/bloc/data_bloc.dart';
-import 'package:studify/view%20model/degrees/bloc/degrees_bloc.dart';
-import 'package:studify/view%20model/events/bloc/events_bloc.dart';
-import 'package:studify/view%20model/participants/bloc/participants_bloc.dart';
-import 'package:studify/view/constants/shared.dart';
-import 'package:studify/view/view%20modules/auth/screens/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:studify/view/view%20modules/main%20pages/screens/doctor_home_page.dart';
-import 'package:studify/view/view%20modules/main%20pages/screens/student_home_page.dart';
+import 'package:studify/core/constants/shared.dart';
+import 'package:studify/core/services/services.dart';
+import 'package:studify/view%20model/auth/login/login_bloc.dart';
+import 'package:studify/view%20model/auth/password_reset/password_reset_bloc.dart';
+import 'package:studify/view%20model/auth/signup/signup_bloc.dart';
+import 'package:studify/view%20model/class/class_bloc.dart';
+import 'package:studify/view%20model/data/data_bloc.dart';
+import 'package:studify/view%20model/degrees/degrees_bloc.dart';
+import 'package:studify/view%20model/events/events_bloc.dart';
+import 'package:studify/view%20model/participants/participants_bloc.dart';
+import 'package:studify/view/modules/auth/screens/login.dart';
+import 'package:studify/view/modules/main%20pages/screens/doctor_home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'view/modules/main pages/screens/student_home_page.dart';
 
-SharedPreferences? userInfo;
 void main() async {
+  final services = Get.put(Services());
+  services.init();
   WidgetsFlutterBinding.ensureInitialized();
-  userInfo = await SharedPreferences.getInstance();
   Platform.isAndroid
       ? await Firebase.initializeApp(
           options: const FirebaseOptions(
@@ -42,6 +45,15 @@ class MyApp extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
+              create: (context) => LoginBloc(),
+            ),
+            BlocProvider(
+              create: (context) => SignupBloc(),
+            ),
+            BlocProvider(
+              create: (context) => PasswordResetBloc(),
+            ),
+            BlocProvider(
               create: (context) => ParticipantsBloc(),
             ),
             BlocProvider(
@@ -59,7 +71,7 @@ class MyApp extends StatelessWidget {
           ],
           child: GetMaterialApp(
             home: Shared().id == null
-                ? const Login()
+                ? const LoginPage()
                 : Shared().type == "doctor"
                     ? const DoctorHomePage()
                     : const StudentHomePage(),

@@ -2,12 +2,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studify/main.dart';
-import 'package:studify/view/constants/colors.dart';
-import 'package:studify/view/view%20modules/main%20pages/screens/doctor_home_page.dart';
-import 'package:studify/view/view%20modules/main%20pages/screens/student_home_page.dart';
+import 'package:studify/core/constants/colors.dart';
+import 'package:studify/core/services/services.dart';
+import 'package:studify/view/modules/main%20pages/screens/doctor_home_page.dart';
+import 'package:studify/view/modules/main%20pages/screens/student_home_page.dart';
 
 Future<void> loginFun(String email, String password, String type) async {
+  final services = Get.put(Services());
   try {
     bool isDoctor = false;
     bool founded = false;
@@ -19,9 +20,9 @@ Future<void> loginFun(String email, String password, String type) async {
         .get();
 
     for (var doc in querySnapshot.docs) {
-      userInfo!.setString("id", doc['id']);
-      userInfo!.setString("username", doc['username']);
-      userInfo!.setString("type", doc['type']);
+      services.userInfo!.setString("id", doc['id']);
+      services.userInfo!.setString("username", doc['username']);
+      services.userInfo!.setString("type", doc['type']);
       if (doc['type'] == "doctor") {
         isDoctor = true;
       } else {

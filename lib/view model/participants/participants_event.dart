@@ -8,7 +8,6 @@ class FetchParticipants extends ParticipantsEvent {
   FetchParticipants(this.classId, this.searchQuery);
 }
 
-
 class AddParticipants extends ParticipantsEvent {
   final String classId;
   final String studentId;
@@ -21,4 +20,15 @@ class DeleteParticipants extends ParticipantsEvent {
   final String studentName;
   final String studentId;
   DeleteParticipants(this.classId, this.studentName, this.studentId);
+}
+
+class GoToOneStudentDegree extends ParticipantsEvent {
+  String studentName;
+  String studentId;
+  String classId;
+  GoToOneStudentDegree(
+    this.studentId,
+    this.classId,
+    this.studentName,
+  );
 }

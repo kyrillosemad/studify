@@ -13,7 +13,6 @@ import 'package:studify/view/shared_widgets/search_field.dart';
 
 import '../widgets/participant_card.dart';
 
-
 class TakeAbsence extends StatefulWidget {
   const TakeAbsence({super.key});
 
@@ -26,6 +25,7 @@ class _TakeAbsenceState extends State<TakeAbsence> {
   String eventId = Random().nextInt(1000000).toString();
   bool isready = false;
   final _formKey = GlobalKey<FormState>();
+
   TextEditingController eventNameCont = TextEditingController();
   TextEditingController searchCont = TextEditingController();
   TextEditingController totalScoreCont = TextEditingController();
@@ -150,9 +150,11 @@ class _TakeAbsenceState extends State<TakeAbsence> {
                               child: CircularProgressIndicator(),
                             ));
                           } else if (snapshot.hasData) {
+                 
                             return Expanded(
                               child: ParticipantsCard(
                                   participants: snapshot.data,
+                               
                                   classId: classId,
                                   newScoreCont: newScoreCont,
                                   totalScoreCont: totalScoreCont,

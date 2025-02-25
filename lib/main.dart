@@ -7,9 +7,9 @@ import 'package:studify/core/constants/routes.dart';
 import 'package:studify/core/constants/shared.dart';
 import 'package:studify/core/services/services.dart';
 import 'package:studify/view%20model/data/data_bloc.dart';
-import 'package:studify/view%20model/degrees/degrees_bloc.dart';
 import 'package:studify/view%20model/events/events_bloc.dart';
-import 'package:studify/view%20model/participants/participants_bloc.dart';
+import 'package:studify/view%20model/my_events/my_events_bloc.dart';
+import 'package:studify/view%20model/one_event_bloc/one_event_bloc.dart';
 import 'package:studify/view/modules/auth/screens/login.dart';
 import 'package:studify/view/modules/main%20pages/screens/doctor_home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,13 +42,13 @@ class MyApp extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => ParticipantsBloc(),
+              create: (context) => OneEventBloc(),
             ),
             BlocProvider(
               create: (context) => EventsBloc(),
             ),
             BlocProvider(
-              create: (context) => DegreesBloc(),
+              create: (context) => MyEventsBloc(),
             ),
             BlocProvider(
               create: (context) => DataBloc(),

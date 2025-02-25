@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:studify/core/constants/routes_name.dart';
 import 'package:studify/services/firebase/participants/add_participants.dart';
 import 'package:studify/services/firebase/participants/delete_participant.dart';
 import 'package:studify/services/firebase/participants/get_all_participants.dart';
@@ -11,7 +14,15 @@ class ParticipantsBloc extends Bloc<ParticipantsEvent, ParticipantsState> {
     on<FetchParticipants>(fetchParticipantsFun);
     on<AddParticipants>(addParticipantsFun);
     on<DeleteParticipants>(deleteParticipantsFun);
+    on<GoToOneStudentDegree>(_goToOneStudentDegree);
   }
+
+  TextEditingController searchCont = TextEditingController();
+  TextEditingController studentNameCont = TextEditingController();
+  TextEditingController studentIdCont = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  var classId = Get.arguments['classId'];
+  int numOfParticipants = 0;
 
   FutureOr<void> fetchParticipantsFun(
       FetchParticipants event, Emitter<ParticipantsState> emit) async {
@@ -62,5 +73,14 @@ class ParticipantsBloc extends Bloc<ParticipantsEvent, ParticipantsState> {
     } catch (e) {
       emit(ParticipantsError(e.toString()));
     }
+  }
+
+  FutureOr<void> _goToOneStudentDegree(
+      GoToOneStudentDegree event, Emitter<ParticipantsState> emit) {
+    Get.toNamed(AppRoutes().oneStudentDegree, arguments: {
+      "studentName": event.studentName,
+      "studentId": event.studentId,
+      "classId": event.classId,
+    });
   }
 }

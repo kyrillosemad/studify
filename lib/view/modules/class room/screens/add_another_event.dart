@@ -118,7 +118,9 @@ class _AddAnotherEventState extends State<AddAnotherEvent> {
                           return const Center(
                               child: CircularProgressIndicator());
                         } else if (snapshot.hasData) {
+                         
                           return ParticipantsCard(
+                   
                               participants: snapshot.data,
                               classId: classId,
                               newScoreCont: newScoreCont,

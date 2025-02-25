@@ -2,15 +2,7 @@ part of 'degrees_bloc.dart';
 
 sealed class DegreesEvent {}
 
-class ChangeStudentDegrees extends DegreesEvent {
-  final String classId;
-  final String studentId;
-  final String newScore;
-  final String eventId;
 
-  ChangeStudentDegrees(
-      this.classId, this.studentId, this.newScore, this.eventId);
-}
 
 class GetStudentDegrees extends DegreesEvent {
   String classId;

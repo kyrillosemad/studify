@@ -144,7 +144,8 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
   FutureOr<void> _leaveClassForStudent(
       LeaveClassForStudent event, Emitter<ClassRoomState> emit) async {
     try {
-      await deleteParticipant(event.classId, Shared().userName, Shared().id);
+      await deleteParticipant(
+          event.classId, Shared().userName.toString(), Shared().id.toString());
       Get.offAll(const StudentHomePage());
     } catch (e) {
       throw Exception();
@@ -176,23 +177,23 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
     });
   }
 
-  FutureOr<void> _goToQuiz(GoToQuiz event, Emitter<ClassRoomState> emit) async{
-       bool? allowed = await getAllowedValue(classId,
-                        Shared().id.toString(), quizIdCont.text);
+  FutureOr<void> _goToQuiz(GoToQuiz event, Emitter<ClassRoomState> emit) async {
+    bool? allowed =
+        await getAllowedValue(classId, Shared().id.toString(), quizIdCont.text);
 
-                  isAllowed = allowed ?? false;
+    isAllowed = allowed ?? false;
 
-                    if (isAllowed) {
-                      Get.to(() => const QuizPage(), arguments: {
-                        "classId": classId,
-                        "quizId": quizIdCont.text,
-                      });
-                quizIdCont.text = "";
-                    } else {
-                    quizIdCont.text = "";
-                      Get.back();
-                      Get.snackbar("Failed", "You are not allowed");
-                    }
+    if (isAllowed) {
+      Get.to(() => const QuizPage(), arguments: {
+        "classId": classId,
+        "quizId": quizIdCont.text,
+      });
+      quizIdCont.text = "";
+    } else {
+      quizIdCont.text = "";
+      Get.back();
+      Get.snackbar("Failed", "You are not allowed");
+    }
   }
 
   FutureOr<void> _goToChatRoom(

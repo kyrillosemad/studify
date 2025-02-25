@@ -1,21 +1,13 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
 import 'package:studify/view%20model/participants/participants_bloc.dart';
+
 class AddParticipantsButton extends StatelessWidget {
-  String classId;
-  TextEditingController studentIdCont;
-  TextEditingController studentNameCont;
-  GlobalKey<FormState> formKey;
-  AddParticipantsButton(
-      {super.key,
-      required this.formKey,
-      required this.classId,
-      required this.studentIdCont,
-      required this.studentNameCont});
+  final ParticipantsBloc controller;
+  const AddParticipantsButton({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -28,27 +20,24 @@ class AddParticipantsButton extends StatelessWidget {
             confirmTextColor: Colors.white,
             onCancel: () {},
             onConfirm: () {
-              if (formKey.currentState!.validate()) {
-                context.read<ParticipantsBloc>().add(
-                      AddParticipants(
-                        classId,
-                        studentIdCont.text,
-                        studentNameCont.text,
-                      ),
-                    );
-                studentIdCont.clear();
-                studentNameCont.clear();
+              if (controller.formKey.currentState!.validate()) {
+                controller.add(AddParticipants(
+                    controller.classId,
+                    controller.studentIdCont.text,
+                    controller.studentNameCont.text));
+                controller.studentIdCont.clear();
+                controller.studentNameCont.clear();
               }
             },
             title: "New participant",
             titleStyle: TextStyle(color: MyColors().mainColors),
             content: Form(
-              key: formKey,
+              key: controller.formKey,
               child: SizedBox(
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: studentNameCont,
+                      controller: controller.studentNameCont,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.abc),
                         focusedBorder: OutlineInputBorder(),
@@ -64,7 +53,7 @@ class AddParticipantsButton extends StatelessWidget {
                     ),
                     SizedBox(height: 1.h),
                     TextFormField(
-                      controller: studentIdCont,
+                      controller: controller.studentIdCont,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.perm_identity),
                         focusedBorder: OutlineInputBorder(),

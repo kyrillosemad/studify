@@ -1,21 +1,17 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
 import 'package:studify/view%20model/participants/participants_bloc.dart';
-import 'package:studify/view/modules/class%20room/screens/one_student_degree.dart';
-
 
 class ParticipantsPart extends StatelessWidget {
   var state;
   String type;
-  String classId;
+  final ParticipantsBloc controller;
   ParticipantsPart(
       {super.key,
-      required this.classId,
+      required this.controller,
       required this.state,
       required this.type});
 
@@ -28,11 +24,8 @@ class ParticipantsPart extends StatelessWidget {
         return InkWell(
           onTap: type == "studentsDegrees"
               ? () {
-                  Get.to(const OneStudentDegree(), arguments: {
-                    "studentName": state[index]['studentName'],
-                    "studentId": state[index]['studentId'],
-                    "classId": classId,
-                  });
+                  controller.add(GoToOneStudentDegree(state[index]['studentId'],
+                      controller.classId, state[index]['studentName']));
                 }
               : () {},
           child: Container(
@@ -76,12 +69,10 @@ class ParticipantsPart extends StatelessWidget {
                           ),
                           onCancel: () {},
                           onConfirm: () {
-                            context.read<ParticipantsBloc>().add(
-                                  DeleteParticipants(
-                                      classId,
-                                      state[index]['studentName'],
-                                      state[index]['studentId']),
-                                );
+                            controller.add(DeleteParticipants(
+                                controller.classId,
+                                state[index]['studentName'],
+                                state[index]['studentId']));
                           },
                         );
                       },

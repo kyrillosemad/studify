@@ -13,12 +13,7 @@ class AddEvent extends EventsEvent {
       this.questions);
 }
 
-class DeleteEvent extends EventsEvent {
-  final String classId;
-  final String eventId;
 
-  DeleteEvent(this.classId, this.eventId);
-}
 
 class EnrollInAbsence extends EventsEvent {
   final String classId;
@@ -36,12 +31,7 @@ class GetQuiz extends EventsEvent {
   GetQuiz(this.classId, this.eventId);
 }
 
-class GetEvents extends EventsEvent {
-  final String searchQuery;
-  final String classId;
 
-  GetEvents(this.classId, this.searchQuery);
-}
 
 class QuizResult extends EventsEvent {
   final String classId;

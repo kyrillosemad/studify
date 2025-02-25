@@ -1,17 +1,16 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
 import 'package:studify/services/firebase/degrees/change_student_score.dart';
-import 'package:studify/view%20model/degrees/degrees_bloc.dart';
 import 'package:studify/view/modules/class%20room/widgets/form_field.dart';
 
-class ParticipantsCard extends StatefulWidget {
+class ParticipantsCard extends StatelessWidget {
   var classId;
   var eventId;
   var participants;
+
   TextEditingController newScoreCont;
   TextEditingController totalScoreCont;
   ParticipantsCard(
@@ -23,14 +22,9 @@ class ParticipantsCard extends StatefulWidget {
       required this.eventId});
 
   @override
-  State<ParticipantsCard> createState() => _ParticipantsCardState();
-}
-
-class _ParticipantsCardState extends State<ParticipantsCard> {
-  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: widget.participants.length,
+      itemCount: participants.length,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
@@ -41,22 +35,21 @@ class _ParticipantsCardState extends State<ParticipantsCard> {
               confirmTextColor: Colors.white,
               onCancel: () {},
               onConfirm: () async {
-                final newScore = widget.newScoreCont.text.trim();
+                final newScore = newScoreCont.text.trim();
                 final score = int.tryParse(newScore);
-
                 if (score != null &&
                     score >= 0 &&
-                    score <= int.parse(widget.totalScoreCont.text)) {
-                  context.read<DegreesBloc>().add(changeStudentScore(
-                      widget.classId,
-                      widget.participants[index]['studentId'],
-                      newScore,
-                      widget.eventId));
+                    score <= int.parse(totalScoreCont.text)) {
+                  changeStudentScore(
+                      classId.toString(),
+                      participants[index]['studentId'].toString(),
+                      newScore.toString(),
+                      eventId.toString());
                 } else {
-                  widget.newScoreCont.clear();
+                  newScoreCont.clear();
                   Get.snackbar(
                     "Invalid Score",
-                    "Please enter a valid score between 0 and ${widget.totalScoreCont.text}",
+                    "Please enter a valid score between 0 and ${totalScoreCont.text}",
                     backgroundColor: MyColors().mainColors,
                     colorText: Colors.white,
                   );
@@ -68,7 +61,7 @@ class _ParticipantsCardState extends State<ParticipantsCard> {
                 child: Column(
                   children: [
                     FormFieldPart(
-                        controller: widget.newScoreCont,
+                        controller: newScoreCont,
                         hint: "New Score",
                         icon: Icons.score,
                         validator: (value) {
@@ -90,7 +83,7 @@ class _ParticipantsCardState extends State<ParticipantsCard> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: widget.participants[index]['studentScore'] == "0"
+              color: participants[index]['studentScore'] == "0"
                   ? Colors.red
                   : Colors.green,
               borderRadius: BorderRadius.circular(15.sp),
@@ -99,15 +92,15 @@ class _ParticipantsCardState extends State<ParticipantsCard> {
             child: ListTile(
               leading: const Icon(Icons.person, color: Colors.white),
               title: Text(
-                widget.participants[index]['studentName'],
+                participants[index]['studentName'],
                 style: const TextStyle(color: Colors.white),
               ),
               subtitle: Text(
-                widget.participants[index]['studentId'],
+                participants[index]['studentId'],
                 style: const TextStyle(color: Colors.white70),
               ),
               trailing: Text(
-                "Score: ${widget.participants[index]['studentScore']}",
+                "Score: ${participants[index]['studentScore']}",
                 style: const TextStyle(color: Colors.white),
               ),
             ),

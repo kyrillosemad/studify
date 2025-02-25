@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:studify/services/firebase/degrees/change_student_score.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:studify/services/firebase/degrees/get_one_student_degrees.dart';
 part 'degrees_event.dart';
 part 'degrees_state.dart';
@@ -8,9 +9,12 @@ part 'degrees_state.dart';
 class DegreesBloc extends Bloc<DegreesEvent, DegreesState> {
   DegreesBloc() : super(DegreesInitial()) {
     on<GetStudentDegrees>(getStudentDegreesFun);
-    on<ChangeStudentDegrees>(changeStudentDegreesFun);
-  }
 
+  }
+  var studentName = Get.arguments['studentName'];
+  var studentId = Get.arguments['studentId'];
+  var classId = Get.arguments['classId'];
+  TextEditingController searchCont = TextEditingController();
   FutureOr<void> getStudentDegreesFun(
       GetStudentDegrees event, Emitter<DegreesState> emit) async {
     emit(DegreesLoading());
@@ -36,13 +40,5 @@ class DegreesBloc extends Bloc<DegreesEvent, DegreesState> {
     }
   }
 
-  FutureOr<void> changeStudentDegreesFun(
-      ChangeStudentDegrees event, Emitter<DegreesState> emit) async {
-    try {
-      await changeStudentScore(
-          event.classId, event.studentId, event.newScore, event.eventId);
-    } catch (e) {
-      emit(DegreesError(e.toString()));
-    }
-  }
+
 }

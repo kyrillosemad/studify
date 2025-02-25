@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studify/core/constants/colors.dart';
 
-
 deleteParticipant(classId, studentName, studentId) async {
   List<dynamic> participants = [];
   try {

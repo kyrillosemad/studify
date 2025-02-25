@@ -112,7 +112,7 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
   FutureOr<void> _leaveClassForStudent(
       LeaveClassForStudent event, Emitter<ClassState> emit) async {
     try {
-      await deleteParticipant(event.classId, Shared().userName, Shared().id);
+      await deleteParticipant(event.classId, Shared().userName.toString(), Shared().id.toString());
       Get.offAll(const StudentHomePage());
     } catch (e) {
       throw Exception();

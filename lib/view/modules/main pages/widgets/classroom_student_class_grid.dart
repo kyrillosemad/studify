@@ -1,45 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:studify/core/constants/shared.dart';
-import 'package:studify/services/firebase/events/allowed.dart';
-import 'package:studify/services/firebase/events/enroll_in_absence.dart';
-import 'package:studify/view/modules/class%20room/screens/data_for_student.dart';
-import 'package:studify/view/modules/class%20room/screens/one_student_degree.dart';
-import 'package:studify/view/modules/class%20room/screens/quiz_page.dart';
-
+import 'package:studify/view%20model/class_room/class_room_bloc.dart';
 import '../../../../core/constants/colors.dart';
-import '../../class room/screens/chat_page.dart';
 import 'class_room_part.dart';
 
-class ClassGrid extends StatefulWidget {
-  const ClassGrid({
-    Key? key,
-    required this.classId,
-    required this.quizIdCont,
-    required this.isAllowed,
-    required this.onCheckAllowed,
-  }) : super(key: key);
-
-  final String classId;
-  final TextEditingController quizIdCont;
-  final bool isAllowed;
-  final Future<void> Function() onCheckAllowed;
-
-  @override
-  _ClassGridState createState() => _ClassGridState();
-}
-
-class _ClassGridState extends State<ClassGrid> {
-  late bool isAllowed;
-
-  @override
-  void initState() {
-    super.initState();
-    isAllowed = widget.isAllowed;
-  }
+class ClassGrid extends StatelessWidget {
+  final ClassRoomBloc controller;
+  const ClassGrid({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +24,7 @@ class _ClassGridState extends State<ClassGrid> {
           if (index == 0) {
             return InkWell(
               onTap: () {
-                Get.to(() => const OneStudentDegree(), arguments: {
-                  "classId": widget.classId,
-                  "studentId": Shared().id,
-                  "studentName": Shared().userName
-                });
+                controller.add(GoToOneStudentDegree());
               },
               child: ClassRoomPart(
                   color: Colors.teal,
@@ -73,12 +38,7 @@ class _ClassGridState extends State<ClassGrid> {
           if (index == 1) {
             return InkWell(
               onTap: () async {
-                await FlutterBarcodeScanner.scanBarcode(
-                        "#2A99CF", "cancel", true, ScanMode.QR)
-                    .then((value) {
-                  enrollInAbsence(widget.classId, value.toString(),
-                      Shared().userName.toString(), Shared().id.toString());
-                });
+                controller.add(GoToEnrollInAbsence());
               },
               child: ClassRoomPart(
                   color: Colors.orange,
@@ -92,9 +52,7 @@ class _ClassGridState extends State<ClassGrid> {
           if (index == 2) {
             return InkWell(
               onTap: () async {
-                Get.to(() => const DataForStudents(), arguments: {
-                  "classId": widget.classId,
-                });
+                controller.add(GoToData());
               },
               child: ClassRoomPart(
                   color: Colors.blue,
@@ -108,9 +66,7 @@ class _ClassGridState extends State<ClassGrid> {
           if (index == 4) {
             return InkWell(
               onTap: () async {
-                Get.to(() => const ChatPage(), arguments: {
-                  "classId": widget.classId,
-                });
+                controller.add(GoToChatRoom());
               },
               child: ClassRoomPart(
                   color: Colors.redAccent,
@@ -130,25 +86,7 @@ class _ClassGridState extends State<ClassGrid> {
                   confirmTextColor: Colors.white,
                   onCancel: () {},
                   onConfirm: () async {
-                    bool? allowed = await getAllowedValue(widget.classId,
-                        Shared().id.toString(), widget.quizIdCont.text);
-                    setState(() {
-                      isAllowed = allowed ?? false;
-                    });
-
-                    if (isAllowed) {
-                      setState(() {
-                        Get.to(() => const QuizPage(), arguments: {
-                          "classId": widget.classId,
-                          "quizId": widget.quizIdCont.text,
-                        });
-                      });
-                      widget.quizIdCont.text = "";
-                    } else {
-                      widget.quizIdCont.text = "";
-                      Get.back();
-                      Get.snackbar("Failed", "You are not allowed");
-                    }
+                    controller.add(GoToQuiz());
                   },
                   title: "Quiz",
                   titleStyle: TextStyle(color: MyColors().mainColors),
@@ -156,7 +94,7 @@ class _ClassGridState extends State<ClassGrid> {
                       child: Column(
                     children: [
                       TextFormField(
-                        controller: widget.quizIdCont,
+                        controller: controller.quizIdCont,
                         decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.abc),
                           focusedBorder: OutlineInputBorder(),

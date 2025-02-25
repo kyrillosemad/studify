@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-
+ 
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';

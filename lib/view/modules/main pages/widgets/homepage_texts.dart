@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
 import 'package:studify/core/constants/shared.dart';
-
 
 class GreetingText extends StatelessWidget {
   const GreetingText({super.key});
@@ -42,7 +40,7 @@ class ClassesTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "Your class rooms",
+      "Your class rooms.",
       style: TextStyle(
         fontSize: 15.sp,
         color: MyColors().mainColors,

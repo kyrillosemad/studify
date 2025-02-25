@@ -4,7 +4,6 @@ import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
 import 'package:studify/services/firebase/auth/logout_fun.dart';
 
-
 class HomepageAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomepageAppBar({super.key});
 
@@ -33,9 +32,16 @@ class HomepageAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
             );
           },
-          child: Padding(
-            padding: EdgeInsets.all(4.sp),
-            child: const Icon(Icons.logout),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(10.sp),
+                child: const Icon(Icons.logout),
+              ),
+              const SizedBox(
+                width: 10,
+              )
+            ],
           ),
         )
       ],

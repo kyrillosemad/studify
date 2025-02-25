@@ -2,25 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/view%20model/class/class_bloc.dart';
-import 'package:studify/view/modules/main%20pages/screens/doctor_class_room.dart';
-import 'package:studify/view/modules/main%20pages/screens/student_class_room.dart';
-import 'package:studify/view/modules/main%20pages/widgets/class_room_leave_class_button.dart';
+import 'package:studify/view%20model/class/class_event.dart';
 import 'package:studify/view/modules/main%20pages/widgets/doctor_homepage_widgets.dart';
-
+import 'package:studify/view/modules/main%20pages/widgets/student_homepage_widgets.dart';
 import '../../../../core/constants/colors.dart';
 
 class ClassList extends StatelessWidget {
-  final ClassBloc classBloc;
-  String Type;
-  ClassList({super.key, required this.classBloc, required this.Type});
+  final ClassBloc controller;
+  final String type;
+
+  const ClassList({super.key, required this.controller, required this.type});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ClassBloc, ClassState>(
-      bloc: classBloc,
       builder: (context, state) {
         if (state is ClassLoading) {
           return const Expanded(
@@ -33,7 +30,7 @@ class ClassList extends StatelessWidget {
             return Expanded(
               child: Center(
                 child: Text(
-                  "there's no classes now",
+                  "There's no classes now",
                   style: TextStyle(
                     fontSize: 15.sp,
                     color: MyColors().mainColors,
@@ -48,29 +45,20 @@ class ClassList extends StatelessWidget {
               itemCount: state.classes.length,
               itemBuilder: (BuildContext context, int index) {
                 return ClassListItem(
+                  controller: controller,
                   classInfo: state.classes[index],
-                  onClassTap: Type == "student"
-                      ? () {
-                          Get.to(
-                            const StudentClassRoom(),
-                            arguments: {
-                              "date": state.classes[index]['date'],
-                              "classId": state.classes[index]['id'],
-                              "className": state.classes[index]['name'],
-                            },
-                          );
-                        }
-                      : () {
-                          Get.to(
-                            const DoctorClassRoom(),
-                            arguments: {
-                              "date": state.classes[index]['date'],
-                              "classId": state.classes[index]['id'],
-                              "className": state.classes[index]['name'],
-                            },
-                          );
-                        },
-                  type: Type,
+                  onClassTap: () {
+                    type == "student"
+                        ? controller.add(GoToStudentClass(
+                            state.classes[index]['id'],
+                            state.classes[index]['name'],
+                            state.classes[index]['date']))
+                        : controller.add(GoToDoctorClass(
+                            state.classes[index]['id'],
+                            state.classes[index]['name'],
+                            state.classes[index]['date']));
+                  },
+                  type: type,
                 );
               },
             ),
@@ -96,14 +84,18 @@ class ClassList extends StatelessWidget {
 }
 
 class ClassListItem extends StatelessWidget {
+  final ClassBloc controller;
   final Map<String, dynamic> classInfo;
   final VoidCallback onClassTap;
-  String type;
-  ClassListItem({
+  final String type;
+  
+
+  const ClassListItem({
     super.key,
     required this.classInfo,
     required this.onClassTap,
     required this.type,
+    required this.controller,
   });
 
   @override
@@ -131,15 +123,17 @@ class ClassListItem extends StatelessWidget {
             color: MyColors().mainColors,
           ),
           title: Text(
-            "${classInfo['name']}",
+            classInfo['name'],
             style: TextStyle(
               fontSize: 15.sp,
               color: MyColors().mainColors,
             ),
           ),
           trailing: type == "student"
-              ? LeaveClassButton(classId: classInfo['id'])
-              : DeleteClassButton(classId: classInfo['id']),
+              ? SizedBox(
+                  child: LeaveClassButton(
+                      controller: controller, classId: classInfo['id']))
+              : SizedBox(child: DeleteClassButton(classId: classInfo['id'])),
           subtitle: Text(
             "Date: ${classInfo['date']}",
             style: TextStyle(

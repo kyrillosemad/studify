@@ -10,68 +10,58 @@ import 'package:studify/view/modules/main%20pages/screens/student_home_page.dart
 import 'package:studify/view/modules/main%20pages/widgets/homepage_classes.dart';
 import 'package:studify/view/modules/main%20pages/widgets/homepage_texts.dart';
 import 'package:studify/view/shared_widgets/search_field.dart';
-
 import '../../../../core/constants/shared.dart';
 
-
 class StudentHomeBody extends StatelessWidget {
-  final ClassBloc classBloc;
-  final TextEditingController classIdController;
-  final TextEditingController searchController;
+  final ClassBloc controller;
 
   const StudentHomeBody({
     super.key,
-    required this.classBloc,
-    required this.classIdController,
-    required this.searchController,
+    required this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          Center(
-            child: SizedBox(
-              width: 95.w,
-              height: 90.h,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 2.h),
-                  const GreetingText(),
-                  SizedBox(height: 2.h),
-                  const InstructionsText(),
-                  SizedBox(height: 2.h),
-                  const ClassesTitle(),
-                  SizedBox(height: 2.h),
-                  SearchField(
-                      hint: "Search",
-                      onChanged: (value) {
-                        classBloc.add(GetClassForStudent(value));
-                      },
-                      type: TextInputType.text),
-                  SizedBox(height: 2.h),
-                  ClassList(classBloc: classBloc,Type: "student"),
-                ],
-              ),
+    return Stack(
+      alignment: Alignment.bottomRight,
+      children: [
+        Center(
+          child: SizedBox(
+            width: 95.w,
+            height: 90.h,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 2.h),
+                const GreetingText(),
+                SizedBox(height: 2.h),
+                const InstructionsText(),
+                SizedBox(height: 2.h),
+                const ClassesTitle(),
+                SizedBox(height: 2.h),
+                SearchField(
+                    hint: "Search",
+                    onChanged: (value) {
+                      controller.add(GetClassForStudent(value));
+                    },
+                    type: TextInputType.text),
+                SizedBox(height: 2.h),
+                ClassList(controller: controller, type: "student"),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
 
-
-
 class AddClassButton extends StatelessWidget {
-  final TextEditingController classIdController;
+  final ClassBloc controller;
 
   const AddClassButton({
     super.key,
-    required this.classIdController,
+    required this.controller,
   });
 
   @override
@@ -97,12 +87,12 @@ class AddClassButton extends StatelessWidget {
                 onConfirm: () {
                   context.read<ParticipantsBloc>().add(
                         AddParticipants(
-                          classIdController.text,
+                          controller.classIdController.text,
                           Shared().id.toString(),
                           Shared().userName.toString(),
                         ),
                       );
-                  classIdController.text = '';
+                  controller.classIdController.text = '';
                   Get.offAll(const StudentHomePage());
                 },
                 title: "Enroll in new class",
@@ -110,7 +100,7 @@ class AddClassButton extends StatelessWidget {
                 content: SizedBox(
                   height: 6.h,
                   child: TextFormField(
-                    controller: classIdController,
+                    controller: controller.classIdController,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.abc),
                       focusedBorder: OutlineInputBorder(),
@@ -128,13 +118,12 @@ class AddClassButton extends StatelessWidget {
   }
 }
 
-
-
 class LeaveClassButton extends StatelessWidget {
   final String classId;
-
+  final ClassBloc controller;
   const LeaveClassButton({
     super.key,
+    required this.controller,
     required this.classId,
   });
 
@@ -154,14 +143,7 @@ class LeaveClassButton extends StatelessWidget {
           ),
           onCancel: () {},
           onConfirm: () async {
-            context.read<ParticipantsBloc>().add(
-                  DeleteParticipants(
-                    classId,
-                    Shared().userName.toString(),
-                    Shared().id.toString(),
-                  ),
-                );
-            Get.offAll(const StudentHomePage());
+            controller.add(LeaveClassForStudent(classId));
           },
         );
       },

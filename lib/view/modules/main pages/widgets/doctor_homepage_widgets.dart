@@ -13,16 +13,8 @@ import 'homepage_classes.dart';
 
 // Main Body Widget
 class DoctorHomeBody extends StatelessWidget {
-  final ClassBloc classBloc;
-  final TextEditingController classNameCont;
-  final TextEditingController classDateCont;
-
-  const DoctorHomeBody({
-    super.key,
-    required this.classNameCont,
-    required this.classDateCont,
-    required this.classBloc,
-  });
+  final ClassBloc controller;
+  const DoctorHomeBody({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +38,11 @@ class DoctorHomeBody extends StatelessWidget {
                   child: SearchField(
                       hint: "Search",
                       onChanged: (value) {
-                        classBloc.add(GetClassForDoctor(value));
+                        controller.add(GetClassForDoctor(value));
                       },
                       type: TextInputType.text)),
               SizedBox(height: 2.h),
-              ClassList(
-                classBloc: classBloc,
-                Type: "doctor",
-              ),
+              ClassList(controller: controller, type: "doctor")
             ],
           ),
         ),
@@ -65,7 +54,6 @@ class DoctorHomeBody extends StatelessWidget {
 // Delete Class Button Widget
 class DeleteClassButton extends StatelessWidget {
   final String classId;
-
   const DeleteClassButton({super.key, required this.classId});
 
   @override
@@ -99,13 +87,11 @@ class DeleteClassButton extends StatelessWidget {
 
 // Add Class Button Widget
 class DoctorAddClassButton extends StatelessWidget {
-  final TextEditingController classNameCont;
-  final TextEditingController classDateCont;
+  final ClassBloc controller;
 
   const DoctorAddClassButton({
     super.key,
-    required this.classNameCont,
-    required this.classDateCont,
+    required this.controller,
   });
 
   @override
@@ -124,7 +110,7 @@ class DoctorAddClassButton extends StatelessWidget {
             content: Column(
               children: [
                 TextFormField(
-                  controller: classNameCont,
+                  controller: controller.classNameCont,
                   style:
                       TextStyle(color: MyColors().mainColors, fontSize: 13.sp),
                   decoration: InputDecoration(
@@ -145,7 +131,7 @@ class DoctorAddClassButton extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 TextFormField(
-                  controller: classDateCont,
+                  controller: controller.classDateCont,
                   style:
                       TextStyle(color: MyColors().mainColors, fontSize: 13.sp),
                   decoration: InputDecoration(
@@ -168,10 +154,10 @@ class DoctorAddClassButton extends StatelessWidget {
             ),
             onCancel: () {},
             onConfirm: () {
-              context.read<ClassBloc>().add(
-                  AddClassForDoctor(classNameCont.text, classDateCont.text));
-              classNameCont.clear();
-              classDateCont.clear();
+              controller.add(AddClassForDoctor(controller.classNameCont.text,
+                  controller.classNameCont.text));
+              controller.classNameCont.clear();
+              controller.classDateCont.clear();
               Get.offAll(const DoctorHomePage());
             },
           );

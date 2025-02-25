@@ -5,6 +5,7 @@ import 'package:studify/core/constants/colors.dart';
 import 'package:studify/core/functions/validator.dart';
 import 'package:studify/view%20model/auth/login/login_bloc.dart';
 import 'package:studify/view/modules/auth/widgets/role.dart';
+import 'package:studify/view/shared_widgets/custom_text_form_field.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -18,46 +19,34 @@ class LoginForm extends StatelessWidget {
           key: controller.loginForm,
           child: Column(
             children: [
-              SizedBox(height: 7.h),
-              TextFormField(
-                validator: (value) => validator(value, 30, 3, "email"),
-                style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+              SizedBox(height: 2.h),
+              CustomTextFormField(
+                name: "Email",
                 controller: controller.email,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.email, color: MyColors().mainColors),
-                  hintText: "Email",
-                  hintStyle:
-                      TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
-                  focusedBorder: const OutlineInputBorder(),
-                  disabledBorder: const OutlineInputBorder(),
-                  enabledBorder: const OutlineInputBorder(),
-                ),
+                validatorFunction: (value) => validator(value, 30, 3, "email"),
+                textInputType: TextInputType.emailAddress,
+                obscure: false,
+                icon: Icons.email,
+                suffixIcon: null,
               ),
               SizedBox(height: 1.h),
-              TextFormField(
-                obscureText: controller.secure,
-                validator: (value) => validator(value, 50, 3, "password"),
-                style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+              CustomTextFormField(
+                name: "Password",
                 controller: controller.password,
-                decoration: InputDecoration(
-                  suffixIcon: InkWell(
-                    onTap: () => controller.add(OnPasswordToggle()),
-                    child: controller.secure
-                        ? Icon(Icons.visibility_off,
-                            color: MyColors().mainColors)
-                        : Icon(Icons.visibility, color: MyColors().mainColors),
+                validatorFunction: (value) =>
+                    validator(value, 50, 3, "password"),
+                textInputType: TextInputType.text,
+                obscure: controller.secure,
+                icon: Icons.password,
+                suffixIcon: InkWell(
+                  onTap: () => controller.add(OnPasswordToggle()),
+                  child: Icon(
+                    controller.secure ? Icons.visibility_off : Icons.visibility,
+                    color: MyColors().mainColors,
                   ),
-                  prefixIcon:
-                      Icon(Icons.password, color: MyColors().mainColors),
-                  hintText: "Password",
-                  hintStyle:
-                      TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
-                  focusedBorder: const OutlineInputBorder(),
-                  disabledBorder: const OutlineInputBorder(),
-                  enabledBorder: const OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 2.h),
+              SizedBox(height: 4.h),
               Center(
                 child: Text(
                   "Sign in as",
@@ -86,14 +75,17 @@ class LoginForm extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.sp),
                   ),
                   child: Center(
-                    child: Text(
-                      "Login",
-                      style: TextStyle(fontSize: 15.sp, color: Colors.white),
-                    ),
+                    child: state is LoginLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            "Login",
+                            style:
+                                TextStyle(fontSize: 15.sp, color: Colors.white),
+                          ),
                   ),
                 ),
               ),
-              SizedBox(height: 3.h),
+              SizedBox(height: 1.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

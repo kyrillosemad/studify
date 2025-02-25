@@ -21,9 +21,12 @@ class LoginPage extends StatelessWidget {
             height: 100.h,
             child: Column(
               children: [
-                SizedBox(height: 5.h),
+                SizedBox(height: 3.h),
                 const LogoSection(),
                 const WelcomeTextSection(),
+                SizedBox(
+                  height: 1.h,
+                ),
                 Expanded(
                   child: SizedBox(
                     width: 90.w,

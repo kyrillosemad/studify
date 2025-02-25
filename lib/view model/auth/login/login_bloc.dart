@@ -32,7 +32,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _goToSignUp(GoToSignUp event, Emitter<LoginState> emit) {
-    Get.offAllNamed(AppRoutes().onboarding1);
+    Get.offAllNamed(AppRoutes().signUp);
   }
 
   void _onPasswordToggle(OnPasswordToggle event, Emitter<LoginState> emit) {

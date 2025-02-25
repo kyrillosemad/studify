@@ -4,7 +4,6 @@ import 'package:studify/core/constants/colors.dart';
 
 class ClassDate extends StatelessWidget {
   const ClassDate({Key? key, required this.date}) : super(key: key);
-
   final String date;
 
   @override

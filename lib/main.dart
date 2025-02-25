@@ -3,12 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:studify/core/constants/routes.dart';
 import 'package:studify/core/constants/shared.dart';
 import 'package:studify/core/services/services.dart';
-import 'package:studify/view%20model/auth/login/login_bloc.dart';
-import 'package:studify/view%20model/auth/password_reset/password_reset_bloc.dart';
-import 'package:studify/view%20model/auth/signup/signup_bloc.dart';
-import 'package:studify/view%20model/class/class_bloc.dart';
 import 'package:studify/view%20model/data/data_bloc.dart';
 import 'package:studify/view%20model/degrees/degrees_bloc.dart';
 import 'package:studify/view%20model/events/events_bloc.dart';
@@ -45,19 +42,7 @@ class MyApp extends StatelessWidget {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (context) => LoginBloc(),
-            ),
-            BlocProvider(
-              create: (context) => SignupBloc(),
-            ),
-            BlocProvider(
-              create: (context) => PasswordResetBloc(),
-            ),
-            BlocProvider(
               create: (context) => ParticipantsBloc(),
-            ),
-            BlocProvider(
-              create: (context) => ClassBloc(),
             ),
             BlocProvider(
               create: (context) => EventsBloc(),
@@ -70,6 +55,7 @@ class MyApp extends StatelessWidget {
             ),
           ],
           child: GetMaterialApp(
+            routes: routes,
             home: Shared().id == null
                 ? const LoginPage()
                 : Shared().type == "doctor"

@@ -22,6 +22,7 @@ class DoctorClassRoom extends StatelessWidget {
                 backgroundColor: MyColors().mainColors,
                 title: Text(controller.className),
                 centerTitle: true,
+                elevation: 2,
               ),
               body: SingleChildScrollView(
                 physics: const NeverScrollableScrollPhysics(),

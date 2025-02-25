@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
 import 'package:studify/services/firebase/degrees/get_students_degrees_in_event.dart';
@@ -88,8 +89,12 @@ class EventPage extends StatelessWidget {
                                       snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
+                                  return  Center(
+                                      child:  Lottie.asset(
+              'assets/Animation - 1740512569959.json',
+              height: 20.h,
+              fit: BoxFit.contain,
+            ));
                                 } else if (snapshot.hasData &&
                                     snapshot.data!.isNotEmpty) {
                                   return ParticipantsCard(
@@ -101,12 +106,11 @@ class EventPage extends StatelessWidget {
                                   );
                                 } else {
                                   return Center(
-                                    child: Text(
-                                      "There's no participants",
-                                      style: TextStyle(
-                                          fontSize: 15.sp,
-                                          color: MyColors().mainColors),
-                                    ),
+                                    child:  Lottie.asset(
+                'assets/Animation - 1740514545687.json',
+                height: 28.h,
+                fit: BoxFit.contain,
+              )
                                   );
                                 }
                               },

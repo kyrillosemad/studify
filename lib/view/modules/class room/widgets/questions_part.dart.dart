@@ -1,19 +1,20 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:studify/view%20model/events/events_bloc.dart';
 import 'package:studify/view/modules/class%20room/widgets/form_field.dart';
 import 'package:studify/view/modules/class%20room/widgets/quiz_qusetion_class.dart';
 
 class QuestionsPart extends StatefulWidget {
   final int numOfQuestions;
   final List<QuizQuestion> questions;
-  final Function(int) onRemoveQuestion;
+  final EventsBloc controller;
 
   const QuestionsPart({
     super.key,
     required this.numOfQuestions,
     required this.questions,
-    required this.onRemoveQuestion,
+    required this.controller,
   });
 
   @override
@@ -59,7 +60,9 @@ class _QuestionsPartState extends State<QuestionsPart> {
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
               IconButton(
-                onPressed: () => widget.onRemoveQuestion(index),
+                onPressed: () {
+                  widget.controller.add(RemoveQuestion(index));
+                },
                 icon: const Icon(Icons.delete, color: Colors.red),
               ),
             ],

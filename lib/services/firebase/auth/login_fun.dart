@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, use_build_context_synchronously
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +7,8 @@ import 'package:studify/core/services/services.dart';
 import 'package:studify/view/modules/main%20pages/screens/doctor_home_page.dart';
 import 'package:studify/view/modules/main%20pages/screens/student_home_page.dart';
 
-Future<void> loginFun(String email, String password, String type) async {
+Future<void> loginFun(
+    String email, String password, String type) async {
   final services = Get.put(Services());
   try {
     bool isDoctor = false;
@@ -44,6 +45,7 @@ Future<void> loginFun(String email, String password, String type) async {
           animationDuration: const Duration(milliseconds: 500),
           duration: const Duration(milliseconds: 1500));
     } else {
+    
       Get.defaultDialog(
         buttonColor: MyColors().mainColors,
         cancelTextColor: MyColors().mainColors,

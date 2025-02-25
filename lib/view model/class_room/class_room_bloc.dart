@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -24,7 +23,6 @@ import 'package:studify/view/modules/class%20room/screens/students_degrees.dart'
 import 'package:studify/view/modules/class%20room/screens/take_absence.dart';
 import 'package:studify/view/modules/main%20pages/screens/doctor_home_page.dart';
 import 'package:studify/view/modules/main%20pages/screens/student_home_page.dart';
-
 part 'class_room_event.dart';
 part 'class_room_state.dart';
 

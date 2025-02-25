@@ -6,6 +6,7 @@ import 'package:studify/core/functions/validator.dart';
 import 'package:studify/view%20model/auth/login/login_bloc.dart';
 import 'package:studify/view/modules/auth/widgets/role.dart';
 import 'package:studify/view/shared_widgets/custom_text_form_field.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -46,7 +47,7 @@ class LoginForm extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 4.h),
+              SizedBox(height: 5.h),
               Center(
                 child: Text(
                   "Sign in as",
@@ -76,7 +77,11 @@ class LoginForm extends StatelessWidget {
                   ),
                   child: Center(
                     child: state is LoginLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ? Lottie.asset(
+                            'assets/Animation - 1740512529205.json',
+                            height: 15.h,
+                            fit: BoxFit.contain,
+                          )
                         : Text(
                             "Login",
                             style:

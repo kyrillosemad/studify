@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
 import 'package:studify/core/constants/styles.dart';
@@ -57,8 +58,12 @@ class OneStudentDegree extends StatelessWidget {
                         child: BlocBuilder<DegreesBloc, DegreesState>(
                           builder: (context, state) {
                             if (state is DegreesLoading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
+                              return  Center(
+                                child: Lottie.asset(
+              'assets/Animation - 1740512569959.json',
+              height: 20.h,
+              fit: BoxFit.contain,
+            ),
                               );
                             } else if (state is DegreesError) {
                               return Center(
@@ -70,10 +75,11 @@ class OneStudentDegree extends StatelessWidget {
                             } else if (state is DegreesLoaded) {
                               if (state.degrees.isEmpty) {
                                 return Center(
-                                  child: Text(
-                                    "No events found",
-                                    style: Styles().msgsStyles,
-                                  ),
+                                  child:  Lottie.asset(
+                'assets/Animation - 1740514545687.json',
+                height: 28.h,
+                fit: BoxFit.contain,
+              )
                                 );
                               } else {
                                 double totalScore = state.degrees.fold(

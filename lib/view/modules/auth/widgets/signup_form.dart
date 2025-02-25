@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/functions/validator.dart';
 import 'package:studify/view%20model/auth/signup/signup_bloc.dart';
@@ -113,7 +114,11 @@ class SignUpForm extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.sp)),
                   child: Center(
                     child: state is SignupLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ? Lottie.asset(
+                            'assets/Animation - 1740512529205.json',
+                            height: 15.h,
+                            fit: BoxFit.contain,
+                          )
                         : Text("Sign Up",
                             style: TextStyle(
                                 fontSize: 15.sp, color: Colors.white)),

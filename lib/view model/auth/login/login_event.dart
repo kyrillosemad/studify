@@ -3,7 +3,7 @@ part of 'login_bloc.dart';
 sealed class LoginEvent {}
 
 class Login extends LoginEvent {
-
+ 
 }
 
 class GoToSignUp extends LoginEvent {}

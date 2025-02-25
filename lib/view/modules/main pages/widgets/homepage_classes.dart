@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/view%20model/class/class_bloc.dart';
 import 'package:studify/view%20model/class/class_event.dart';
@@ -20,23 +21,23 @@ class ClassList extends StatelessWidget {
     return BlocBuilder<ClassBloc, ClassState>(
       builder: (context, state) {
         if (state is ClassLoading) {
-          return const Expanded(
+          return Expanded(
             child: Center(
-              child: CircularProgressIndicator(),
-            ),
+                child: Lottie.asset(
+              'assets/Animation - 1740512569959.json',
+              height: 20.h,
+              fit: BoxFit.contain,
+            )),
           );
         } else if (state is ClassLoaded) {
           if (state.classes.isEmpty) {
             return Expanded(
               child: Center(
-                child: Text(
-                  "There's no classes now",
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    color: MyColors().mainColors,
-                  ),
-                ),
-              ),
+                  child: Lottie.asset(
+                'assets/Animation - 1740514545687.json',
+                height: 28.h,
+                fit: BoxFit.contain,
+              )),
             );
           }
           return Expanded(
@@ -88,7 +89,6 @@ class ClassListItem extends StatelessWidget {
   final Map<String, dynamic> classInfo;
   final VoidCallback onClassTap;
   final String type;
-  
 
   const ClassListItem({
     super.key,

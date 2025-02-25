@@ -7,13 +7,12 @@ import 'package:studify/view%20model/events/events_bloc.dart';
 import 'package:studify/view/modules/class%20room/widgets/quiz_qusetion_class.dart';
 
 
-// ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 class SaveQuizButton extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final String classId;
-  final String quizName;
+  final TextEditingController quizName;
   final String eventId;
-  final String quizScore;
+  final TextEditingController quizScore;
   final List<QuizQuestion> questions;
 
   const SaveQuizButton({
@@ -31,13 +30,14 @@ class SaveQuizButton extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () {
+          
           if (formKey.currentState?.validate() ?? false) {
             List<Map<String, dynamic>> questionsData = questions
                 .map((question) => question.toMap())
                 .toList();
             Get.back();
             context.read<EventsBloc>().add(AddEvent(
-                classId, quizName, eventId, quizScore, questionsData));
+                classId, quizName.text, eventId, quizScore.text, questionsData));
           }
         },
         style: ElevatedButton.styleFrom(

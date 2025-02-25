@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:studify/services/firebase/data/delete_data.dart';
 import 'package:studify/services/firebase/data/get%20_all_data.dart';
 import 'package:studify/services/firebase/data/upload_data.dart';
@@ -13,6 +16,9 @@ class DataBloc extends Bloc<DataEvent, DataState> {
     on<GetData>(getDataFun);
     on<DeleteData>(deleteDataFun);
   }
+  var classId = Get.arguments['classId'];
+  TextEditingController searchController = TextEditingController();
+  String searchText = "";
 
   Future<void> addDataFun(AddData event, Emitter<DataState> emit) async {
     try {

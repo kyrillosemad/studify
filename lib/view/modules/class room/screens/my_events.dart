@@ -1,6 +1,7 @@
 // my_events.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
 import 'package:studify/core/constants/styles.dart';
@@ -57,8 +58,12 @@ class MyEvents extends StatelessWidget {
                       Expanded(child: BlocBuilder<MyEventsBloc, MyEventsState>(
                         builder: (context, state) {
                           if (state is MYEventsLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
+                            return  Center(
+                              child:  Lottie.asset(
+              'assets/Animation - 1740512569959.json',
+              height: 20.h,
+              fit: BoxFit.contain,
+            ),
                             );
                           }
                           if (state is MyEventsError) {
@@ -72,10 +77,11 @@ class MyEvents extends StatelessWidget {
                           if (state is MyEventsLoaded) {
                             if (state.events.isEmpty) {
                               return Center(
-                                child: Text(
-                                  "There's no events",
-                                  style: Styles().msgsStyles,
-                                ),
+                                child: Lottie.asset(
+                'assets/Animation - 1740514545687.json',
+                height: 28.h,
+                fit: BoxFit.contain,
+              )
                               );
                             }
                             return EventsPart(

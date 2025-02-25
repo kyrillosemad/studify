@@ -6,8 +6,6 @@ import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/routes.dart';
 import 'package:studify/core/constants/shared.dart';
 import 'package:studify/core/services/services.dart';
-import 'package:studify/view%20model/data/data_bloc.dart';
-import 'package:studify/view%20model/events/events_bloc.dart';
 import 'package:studify/view%20model/my_events/my_events_bloc.dart';
 import 'package:studify/view%20model/one_event_bloc/one_event_bloc.dart';
 import 'package:studify/view/modules/auth/screens/login.dart';
@@ -45,13 +43,7 @@ class MyApp extends StatelessWidget {
               create: (context) => OneEventBloc(),
             ),
             BlocProvider(
-              create: (context) => EventsBloc(),
-            ),
-            BlocProvider(
               create: (context) => MyEventsBloc(),
-            ),
-            BlocProvider(
-              create: (context) => DataBloc(),
             ),
           ],
           child: GetMaterialApp(

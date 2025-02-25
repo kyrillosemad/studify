@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
 import 'package:studify/services/firebase/chat/get_all_msgs.dart';
@@ -35,7 +36,11 @@ class _ChatPageState extends State<ChatPage> {
               builder: (BuildContext context,
                   AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return  Center(child:  Lottie.asset(
+              'assets/Animation - 1740512569959.json',
+              height: 20.h,
+              fit: BoxFit.contain,
+            ));
                 } else if (snapshot.hasError) {
                   return Center(
                       child: Text(
@@ -45,11 +50,11 @@ class _ChatPageState extends State<ChatPage> {
                   ));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
-                      child: Text(
-                    "No messages found.",
-                    style: TextStyle(
-                        fontSize: 15.sp, color: MyColors().mainColors),
-                  ));
+                      child: Lottie.asset(
+                'assets/Animation - 1740514545687.json',
+                height: 28.h,
+                fit: BoxFit.contain,
+              ));
                 } else {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     _scrollController

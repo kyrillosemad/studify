@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
@@ -24,6 +22,9 @@ class RoleSelection extends StatelessWidget {
           value: "student",
           groupValue: selectedRadio,
           onChanged: onRadioChange,
+        ),
+        SizedBox(
+          width: 3.w,
         ),
         RoleOption(
           label: "Doctor",
@@ -58,12 +59,15 @@ class RoleOption extends StatelessWidget {
           label,
           style: TextStyle(fontSize: 13.sp, color: MyColors().mainColors),
         ),
-        Radio(
-          activeColor: MyColors().mainColors,
-          value: value,
-          groupValue: groupValue,
-          onChanged: onChanged,
-        ),
+        Transform.scale(
+          scale: 1, // قم بتعديل هذا الرقم للتحكم في الحجم
+          child: Radio(
+            activeColor: MyColors().mainColors,
+            value: value,
+            groupValue: groupValue,
+            onChanged: onChanged,
+          ),
+        )
       ],
     );
   }

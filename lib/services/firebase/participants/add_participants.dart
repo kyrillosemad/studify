@@ -28,30 +28,70 @@ addParticipant(String classId, String studentId, String studentName) async {
           .update({
         'participants': participants,
       }).then((_) async {
-        Get.snackbar("Success", "the student has been successfully added",
-            backgroundColor: MyColors().mainColors.withOpacity(0.7),
-            colorText: Colors.white,
-            animationDuration: const Duration(milliseconds: 500),
-            duration: const Duration(milliseconds: 1500));
+      Get.snackbar(
+  "Success",
+  "The student has been successfully added",
+  backgroundColor: MyColors().mainColors.withOpacity(0.7),
+  colorText: Colors.white,
+  animationDuration: const Duration(milliseconds: 500),
+  duration: const Duration(milliseconds: 2000),
+  snackPosition: SnackPosition.BOTTOM,
+  margin: EdgeInsets.symmetric(horizontal: Get.width * 0, vertical: 10),
+  borderRadius: 12,
+  isDismissible: true,
+  forwardAnimationCurve: Curves.easeOutBack,
+  snackStyle: SnackStyle.FLOATING,
+);
+
       }).catchError((error) {
-        Get.snackbar("Failed", "there's something wrong",
-            backgroundColor: MyColors().mainColors.withOpacity(0.7),
-            colorText: Colors.white,
-            animationDuration: const Duration(milliseconds: 500),
-            duration: const Duration(milliseconds: 1500));
+        Get.snackbar(
+  "Failed",
+  "There's something wrong",
+  backgroundColor: MyColors().mainColors.withOpacity(0.7),
+  colorText: Colors.white,
+  animationDuration: const Duration(milliseconds: 500),
+  duration: const Duration(milliseconds: 2000),
+  snackPosition: SnackPosition.BOTTOM,
+  margin: EdgeInsets.symmetric(horizontal: Get.width * 0, vertical: 10),
+  borderRadius: 12,
+  isDismissible: true,
+  forwardAnimationCurve: Curves.easeOutBack,
+  snackStyle: SnackStyle.FLOATING,
+);
+
       });
     } else {
-      Get.snackbar("Failed", "there's something wrong",
-          backgroundColor: MyColors().mainColors.withOpacity(0.7),
-          colorText: Colors.white,
-          animationDuration: const Duration(milliseconds: 500),
-          duration: const Duration(milliseconds: 1500));
+    Get.snackbar(
+  "Failed",
+  "There's something wrong",
+  backgroundColor: MyColors().mainColors.withOpacity(0.7),
+  colorText: Colors.white,
+  animationDuration: const Duration(milliseconds: 500),
+  duration: const Duration(milliseconds: 2000),
+  snackPosition: SnackPosition.BOTTOM,
+  margin: EdgeInsets.symmetric(horizontal: Get.width * 0.05, vertical: 10),
+  borderRadius: 12,
+  isDismissible: true,
+  forwardAnimationCurve: Curves.easeOutBack,
+  snackStyle: SnackStyle.FLOATING,
+);
+
     }
   }).catchError((error) {
-    Get.snackbar("Failed", "there's something wrong",
-        backgroundColor: MyColors().mainColors.withOpacity(0.7),
-        colorText: Colors.white,
-        animationDuration: const Duration(milliseconds: 500),
-        duration: const Duration(milliseconds: 1500));
+    Get.snackbar(
+  "Failed",
+  "There's something wrong",
+  backgroundColor: MyColors().mainColors.withOpacity(0.7),
+  colorText: Colors.white,
+  animationDuration: const Duration(milliseconds: 500),
+  duration: const Duration(milliseconds: 2000),
+  snackPosition: SnackPosition.BOTTOM,
+  margin: EdgeInsets.symmetric(horizontal: Get.width * 0.05, vertical: 10),
+  borderRadius: 12,
+  isDismissible: true,
+  forwardAnimationCurve: Curves.easeOutBack,
+  snackStyle: SnackStyle.FLOATING,
+);
+
   });
 }

@@ -7,7 +7,6 @@ import 'package:studify/core/constants/colors.dart';
 import 'package:studify/view%20model/data/data_bloc.dart';
 import 'package:studify/view/modules/class%20room/screens/pdf_viewer.dart';
 
-
 class DataPart extends StatelessWidget {
   var data;
   String classId;
@@ -77,15 +76,27 @@ class DataPart extends StatelessWidget {
                       ? InkWell(
                           onTap: () {
                             Get.defaultDialog(
+                              title: "Delete",
+                              titleStyle: TextStyle(
+                                color: MyColors().mainColors,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                               buttonColor: MyColors().mainColors,
                               cancelTextColor: MyColors().mainColors,
                               confirmTextColor: Colors.white,
-                              title: "Delete",
-                              titleStyle:
-                                  TextStyle(color: MyColors().mainColors),
-                              content: Text(
-                                "Delete this Data?",
-                                style: TextStyle(color: MyColors().mainColors),
+                              radius: 12.sp,
+                              content: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 5.w, vertical: 2.h),
+                                child: Text(
+                                  "Delete this Data?",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: MyColors().mainColors,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
                               ),
                               onCancel: () {},
                               onConfirm: () {

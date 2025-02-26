@@ -6,7 +6,6 @@ import 'package:studify/core/constants/colors.dart';
 import 'package:studify/view%20model/events/events_bloc.dart';
 import 'package:studify/view/modules/class%20room/widgets/quiz_qusetion_class.dart';
 
-
 class SaveQuizButton extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final String classId;
@@ -30,14 +29,12 @@ class SaveQuizButton extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          
           if (formKey.currentState?.validate() ?? false) {
-            List<Map<String, dynamic>> questionsData = questions
-                .map((question) => question.toMap())
-                .toList();
+            List<Map<String, dynamic>> questionsData =
+                questions.map((question) => question.toMap()).toList();
             Get.back();
-            context.read<EventsBloc>().add(AddEvent(
-                classId, quizName.text, eventId, quizScore.text, questionsData));
+            context.read<EventsBloc>().add(AddEvent(classId, quizName.text,
+                eventId, quizScore.text, questionsData));
           }
         },
         style: ElevatedButton.styleFrom(
@@ -52,8 +49,7 @@ class SaveQuizButton extends StatelessWidget {
           child: Text(
             'Save the Quiz',
             textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 16.sp, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
           ),
         ),
       ),

@@ -44,6 +44,7 @@ class LoginForm extends StatelessWidget {
                   child: Icon(
                     controller.secure ? Icons.visibility_off : Icons.visibility,
                     color: MyColors().mainColors,
+                    size: 20.sp,
                   ),
                 ),
               ),

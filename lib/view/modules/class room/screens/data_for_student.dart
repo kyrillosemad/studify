@@ -52,12 +52,12 @@ class DataForStudents extends StatelessWidget {
                         child: BlocBuilder<DataBloc, DataState>(
                           builder: (context, state) {
                             if (state is DataLoading) {
-                              return  Center(
-                                  child:  Lottie.asset(
-              'assets/Animation - 1740512569959.json',
-              height: 20.h,
-              fit: BoxFit.contain,
-            ));
+                              return Center(
+                                  child: Lottie.asset(
+                                'assets/Animation - 1740512569959.json',
+                                height: 20.h,
+                                fit: BoxFit.contain,
+                              ));
                             } else if (state is DataError) {
                               return Center(
                                 child: Text(
@@ -72,12 +72,11 @@ class DataForStudents extends StatelessWidget {
 
                               if (data.isEmpty) {
                                 return Center(
-                                  child:  Lottie.asset(
-                'assets/Animation - 1740514545687.json',
-                height: 28.h,
-                fit: BoxFit.contain,
-              )
-                                );
+                                    child: Lottie.asset(
+                                  'assets/Animation - 1740514545687.json',
+                                  height: 28.h,
+                                  fit: BoxFit.contain,
+                                ));
                               }
 
                               return DataPart(

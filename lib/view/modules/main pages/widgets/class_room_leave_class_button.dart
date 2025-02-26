@@ -17,14 +17,39 @@ class ClassRoomLeaveClassButton extends StatelessWidget {
       child: InkWell(
         onTap: () async {
           Get.defaultDialog(
+            title: "Leave Class?",
+            titleStyle: TextStyle(
+              color: MyColors().mainColors,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold,
+            ),
             buttonColor: MyColors().mainColors,
             cancelTextColor: MyColors().mainColors,
             confirmTextColor: Colors.white,
-            title: "leave ?",
-            titleStyle: TextStyle(color: MyColors().mainColors),
-            content: Text(
-              "want to leave this class?",
-              style: TextStyle(color: MyColors().mainColors),
+            radius: 12.sp,
+            content: Container(
+              width: 20.w, // تحديد عرض مناسب لتجنب المشاكل
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.exit_to_app, color: Colors.red, size: 24.sp),
+                    SizedBox(height: 2.h),
+                    Text(
+                      "Are you sure you want to leave this class?",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: MyColors().mainColors,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                  ],
+                ),
+              ),
             ),
             onCancel: () {},
             onConfirm: () async {
@@ -36,7 +61,9 @@ class ClassRoomLeaveClassButton extends StatelessWidget {
           width: 90.w,
           height: 6.h,
           decoration: BoxDecoration(
-              color: Colors.red, borderRadius: BorderRadius.circular(10.sp)),
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(10.sp),
+          ),
           child: Center(
             child: Text(
               "Leave this class",

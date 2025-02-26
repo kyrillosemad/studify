@@ -24,9 +24,13 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Quiz"),
-        centerTitle: true,
+        toolbarHeight: 7.h,
+        title: Text(
+          "Quiz",
+          style: TextStyle(fontSize: 17.sp),
+        ),
         backgroundColor: MyColors().mainColors,
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -122,7 +126,7 @@ class _QuizPageState extends State<QuizPage> {
                           ),
                         );
                       } else if (!snapshot.hasData || snapshot.data.isEmpty) {
-                        return  Center(
+                        return Center(
                             child: Lottie.asset(
                           'assets/Animation - 1740514545687.json',
                           height: 28.h,

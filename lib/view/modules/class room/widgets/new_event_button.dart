@@ -8,7 +8,6 @@ import 'package:studify/core/constants/colors.dart';
 import 'package:studify/view%20model/events/events_bloc.dart';
 import 'package:studify/view/modules/class%20room/widgets/form_field.dart';
 
-
 class NewEventButton extends StatefulWidget {
   var classId;
   var eventId;

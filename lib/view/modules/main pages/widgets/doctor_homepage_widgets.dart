@@ -61,14 +61,27 @@ class DeleteClassButton extends StatelessWidget {
     return InkWell(
       onTap: () {
         Get.defaultDialog(
+          title: "Delete class",
+          titleStyle: TextStyle(
+            color: MyColors().mainColors,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.bold,
+          ),
           buttonColor: MyColors().mainColors,
           cancelTextColor: MyColors().mainColors,
           confirmTextColor: Colors.white,
-          title: "Delete class",
-          titleStyle: TextStyle(color: MyColors().mainColors),
-          content: Text(
-            "Do you really want to delete this class?",
-            style: TextStyle(color: MyColors().mainColors),
+          radius: 12.sp,
+          content: Container(
+            width: 80.w, // تحديد عرض مناسب للحوار
+            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+            child: Text(
+              "Do you really want to delete this class?",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: MyColors().mainColors,
+                fontSize: 14.sp,
+              ),
+            ),
           ),
           onCancel: () {},
           onConfirm: () {
@@ -79,6 +92,7 @@ class DeleteClassButton extends StatelessWidget {
       },
       child: Icon(
         Icons.delete,
+        size: 25.sp,
         color: MyColors().mainColors,
       ),
     );
@@ -116,6 +130,7 @@ class DoctorAddClassButton extends StatelessWidget {
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       Icons.class_,
+                      size: 25.sp,
                       color: MyColors().mainColors,
                     ),
                     hintText: "Class Name",
@@ -155,14 +170,18 @@ class DoctorAddClassButton extends StatelessWidget {
             onCancel: () {},
             onConfirm: () {
               controller.add(AddClassForDoctor(controller.classNameCont.text,
-                  controller.classNameCont.text));
+                  controller.classDateCont.text));
               controller.classNameCont.clear();
               controller.classDateCont.clear();
               Get.offAll(const DoctorHomePage());
             },
           );
         },
-        child: const Icon(Icons.add),
+        child: Center(
+            child: Icon(
+          Icons.add,
+          size: 20.sp,
+        )),
       ),
     );
   }

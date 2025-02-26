@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
- 
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
@@ -19,7 +19,7 @@ class ClassRoomPart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: color, borderRadius: BorderRadius.circular(10.sp)),
+          color: color, borderRadius: BorderRadius.circular(15.sp)),
       margin: EdgeInsets.all(5.sp),
       child: Column(
         children: [
@@ -32,12 +32,10 @@ class ClassRoomPart extends StatelessWidget {
           ),
           Text(
             service,
-            style: TextStyle(fontSize: 13.sp, color: MyColors().mainColors),
+            style: TextStyle(fontSize: 12.sp, color: MyColors().mainColors),
           )
         ],
       ),
     );
   }
 }
-
-

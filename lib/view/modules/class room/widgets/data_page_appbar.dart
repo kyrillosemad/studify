@@ -14,7 +14,13 @@ class DataPageAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: type == "doctor" ? const Text("Insert Data") : const Text("Data"),
+      toolbarHeight: 7.h,
+      title: type == "doctor"
+          ? Text(
+              "Insert Data",
+              style: TextStyle(fontSize: 15.sp),
+            )
+          : Text("Data", style: TextStyle(fontSize: 15.sp)),
       backgroundColor: MyColors().mainColors,
       centerTitle: true,
       actions: [

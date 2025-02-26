@@ -47,7 +47,8 @@ class DoctorClassRoom extends StatelessWidget {
                             width: 95.w,
                             height: 67.h,
                             child: Padding(
-                              padding: EdgeInsets.all(5.sp),
+                              padding: EdgeInsets.only(
+                                  right: 5.sp, top: 5.sp, left: 5.sp),
                               child: GridView.builder(
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
@@ -61,6 +62,7 @@ class DoctorClassRoom extends StatelessWidget {
                                     child: ClassRoomPart(
                                       color: service.color,
                                       icon: Icon(service.icon,
+                                          size: 30.sp,
                                           color: MyColors().mainColors),
                                       service: service.service,
                                     ),

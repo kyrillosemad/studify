@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studify/core/constants/colors.dart';
 
-
 enrollInAbsence(String classId, String eventId, String studentName,
     String studentId) async {
   try {
@@ -42,31 +41,68 @@ enrollInAbsence(String classId, String eventId, String studentName,
             "events": updatedEvents,
           });
           Get.snackbar(
-              "Done", "You have successfully registered your attendance",
-              backgroundColor: MyColors().mainColors.withOpacity(0.7),
-              colorText: Colors.white,
-              animationDuration: const Duration(milliseconds: 500),
-              duration: const Duration(milliseconds: 1500));
-        } else {
-          Get.snackbar("Error", "Event ID is incorrect",
-              backgroundColor: MyColors().mainColors.withOpacity(0.7),
-              colorText: Colors.white,
-              animationDuration: const Duration(milliseconds: 500),
-              duration: const Duration(milliseconds: 1500));
-        }
-      } else {
-        Get.snackbar("Error", "Class not found",
+            "Done",
+            "You have successfully registered your attendance",
             backgroundColor: MyColors().mainColors.withOpacity(0.7),
             colorText: Colors.white,
             animationDuration: const Duration(milliseconds: 500),
-            duration: const Duration(milliseconds: 1500));
+            duration: const Duration(milliseconds: 2000),
+            snackPosition: SnackPosition.BOTTOM,
+            margin:
+                EdgeInsets.symmetric(horizontal: Get.width * 0, vertical: 10),
+            borderRadius: 12,
+            isDismissible: true,
+            forwardAnimationCurve: Curves.easeOutBack,
+            snackStyle: SnackStyle.FLOATING,
+          );
+        } else {
+          Get.snackbar(
+            "Error",
+            "Event ID is incorrect",
+            backgroundColor: MyColors().mainColors.withOpacity(0.7),
+            colorText: Colors.white,
+            animationDuration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 2000),
+            snackPosition: SnackPosition.BOTTOM,
+            margin:
+                EdgeInsets.symmetric(horizontal: Get.width * 0, vertical: 10),
+            borderRadius: 12,
+            isDismissible: true,
+            forwardAnimationCurve: Curves.easeOutBack,
+            snackStyle: SnackStyle.FLOATING,
+          );
+        }
+      } else {
+        Get.snackbar(
+          "Error",
+          "Class not found",
+          backgroundColor: MyColors().mainColors.withOpacity(0.7),
+          colorText: Colors.white,
+          animationDuration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 2000),
+          snackPosition: SnackPosition.BOTTOM,
+          margin: EdgeInsets.symmetric(horizontal: Get.width * 0, vertical: 10),
+          borderRadius: 12,
+          isDismissible: true,
+          forwardAnimationCurve: Curves.easeOutBack,
+          snackStyle: SnackStyle.FLOATING,
+        );
       }
     });
   } catch (e) {
-    Get.snackbar("Failed", "There's something wrong",
-        backgroundColor: MyColors().mainColors.withOpacity(0.7),
-        colorText: Colors.white,
-        animationDuration: const Duration(milliseconds: 500),
-        duration: const Duration(milliseconds: 1500));
+    Get.snackbar(
+      "Failed",
+      "There's something wrong",
+      backgroundColor: MyColors().mainColors.withOpacity(0.7),
+      colorText: Colors.white,
+      animationDuration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 2000),
+      snackPosition: SnackPosition.BOTTOM,
+      margin: EdgeInsets.symmetric(horizontal: Get.width * 0, vertical: 10),
+      borderRadius: 12,
+      isDismissible: true,
+      forwardAnimationCurve: Curves.easeOutBack,
+      snackStyle: SnackStyle.FLOATING,
+    );
   }
 }

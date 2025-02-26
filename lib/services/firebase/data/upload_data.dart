@@ -52,27 +52,41 @@ Future<void> uploadAndSaveFile(String classId) async {
 
         Get.back();
 
-        Get.snackbar("Done", "File uploaded successfully.",
-            backgroundColor: MyColors().mainColors.withOpacity(0.7),
-            colorText: Colors.white,
-            animationDuration: const Duration(milliseconds: 500),
-            duration: const Duration(milliseconds: 1500));
+        Get.snackbar(
+          "Done",
+          "File uploaded successfully.",
+          backgroundColor: MyColors().mainColors.withOpacity(0.7),
+          colorText: Colors.white,
+          animationDuration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 2000),
+          snackPosition: SnackPosition.BOTTOM,
+          margin: EdgeInsets.symmetric(horizontal: Get.width * 0, vertical: 10),
+          borderRadius: 12,
+          isDismissible: true,
+          forwardAnimationCurve: Curves.easeOutBack,
+          snackStyle: SnackStyle.FLOATING,
+        );
       } catch (e) {
         Get.back();
-
-        Get.snackbar("Failed", "Error uploading file.",
-            backgroundColor: MyColors().mainColors.withOpacity(0.7),
-            colorText: Colors.white,
-            animationDuration: const Duration(milliseconds: 500),
-            duration: const Duration(milliseconds: 1500));
+        Get.snackbar(
+          "Failed",
+          "Error uploading file.",
+          backgroundColor: MyColors().mainColors.withOpacity(0.7),
+          colorText: Colors.white,
+          animationDuration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 2000),
+          snackPosition: SnackPosition.BOTTOM,
+          margin: EdgeInsets.symmetric(horizontal: Get.width * 0, vertical: 10),
+          borderRadius: 12,
+          isDismissible: true,
+          forwardAnimationCurve: Curves.easeOutBack,
+          snackStyle: SnackStyle.FLOATING,
+        );
       }
     } else {
       Get.back();
-
-     
     }
   } else {
     Get.back();
-
   }
 }

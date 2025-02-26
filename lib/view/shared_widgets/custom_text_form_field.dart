@@ -26,13 +26,19 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscure,
       keyboardType: textInputType,
       validator: validatorFunction,
-      style: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+      style: TextStyle(
+          fontSize: 14.sp, color: MyColors().mainColors.withOpacity(0.9)),
       controller: controller,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
-        prefixIcon: Icon(icon, color: MyColors().mainColors),
+        prefixIcon: Icon(
+          icon,
+          color: MyColors().mainColors,
+          size: 22.sp,
+        ),
         hintText: name,
-        hintStyle: TextStyle(fontSize: 15.sp, color: MyColors().mainColors),
+        hintStyle: TextStyle(
+            fontSize: 14.sp, color: MyColors().mainColors.withOpacity(0.9)),
         errorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
           borderRadius: BorderRadius.all(

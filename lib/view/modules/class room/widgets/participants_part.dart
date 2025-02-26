@@ -46,33 +46,53 @@ class ParticipantsPart extends StatelessWidget {
             child: ListTile(
               title: Text(
                 state[index]['studentName'].toString(),
+                style: TextStyle(fontSize: 15.sp),
               ),
               subtitle: Text(
                 "ID: ${state[index]['studentId'].toString()}",
+                style: TextStyle(fontSize: 12.sp),
               ),
               leading: Icon(
                 Icons.person,
+                size: 15.sp,
                 color: MyColors().mainColors,
               ),
               trailing: type == "participants"
                   ? InkWell(
                       onTap: () {
                         Get.defaultDialog(
+                          title: "Delete?",
+                          titleStyle: TextStyle(
+                            color: MyColors().mainColors,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                           buttonColor: MyColors().mainColors,
                           cancelTextColor: MyColors().mainColors,
                           confirmTextColor: Colors.white,
-                          title: "Delete?",
-                          titleStyle: TextStyle(color: MyColors().mainColors),
-                          content: Text(
-                            "delete this participants",
-                            style: TextStyle(color: MyColors().mainColors),
+                          radius: 12.sp,
+                          content: Container(
+                            width: 80.w, // تحديد عرض مناسب للحوار
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.w, vertical: 2.h),
+                            child: Text(
+                              "Delete this participant?",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: MyColors().mainColors,
+                                fontSize: 14.sp,
+                              ),
+                            ),
                           ),
                           onCancel: () {},
                           onConfirm: () {
-                            controller.add(DeleteParticipants(
+                            controller.add(
+                              DeleteParticipants(
                                 controller.classId,
                                 state[index]['studentName'],
-                                state[index]['studentId']));
+                                state[index]['studentId'],
+                              ),
+                            );
                           },
                         );
                       },

@@ -29,6 +29,7 @@ class ClassGrid extends StatelessWidget {
               child: ClassRoomPart(
                   color: Colors.teal,
                   icon: Icon(
+                    size: 30.sp,
                     Icons.stacked_bar_chart,
                     color: MyColors().mainColors,
                   ),
@@ -44,6 +45,7 @@ class ClassGrid extends StatelessWidget {
                   color: Colors.orange,
                   icon: Icon(
                     Icons.person_add_alt_1_outlined,
+                    size: 30.sp,
                     color: MyColors().mainColors,
                   ),
                   service: "Enroll in Absence"),
@@ -57,6 +59,7 @@ class ClassGrid extends StatelessWidget {
               child: ClassRoomPart(
                   color: Colors.blue,
                   icon: Icon(
+                    size: 30.sp,
                     Icons.menu_book_sharp,
                     color: MyColors().mainColors,
                   ),
@@ -71,6 +74,7 @@ class ClassGrid extends StatelessWidget {
               child: ClassRoomPart(
                   color: Colors.redAccent,
                   icon: Icon(
+                    size: 30.sp,
                     Icons.chat,
                     color: MyColors().mainColors,
                   ),
@@ -81,35 +85,61 @@ class ClassGrid extends StatelessWidget {
             return InkWell(
               onTap: () {
                 Get.defaultDialog(
+                  title: "Quiz",
+                  titleStyle: TextStyle(
+                    color: MyColors().mainColors,
+                    fontSize: 16.sp, // حجم خط متجاوب
+                    fontWeight: FontWeight.bold,
+                  ),
                   buttonColor: MyColors().mainColors,
                   cancelTextColor: MyColors().mainColors,
                   confirmTextColor: Colors.white,
+                  radius: 12.sp, // زوايا ناعمة للحواف
+                  content: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 5.w, vertical: 2.h), // تحسين التباعد
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min, // تجنب التمدد غير الضروري
+                      children: [
+                        TextFormField(
+                          controller: controller.quizIdCont,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.abc,
+                                size: 20.sp, color: MyColors().mainColors),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: MyColors().mainColors, width: 1.5),
+                              borderRadius: BorderRadius.circular(10.sp),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1),
+                              borderRadius: BorderRadius.circular(10.sp),
+                            ),
+                            hintText: "Enter Quiz ID",
+                            hintStyle:
+                                TextStyle(fontSize: 12.sp, color: Colors.grey),
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 4.w, vertical: 1.5.h),
+                          ),
+                          style: TextStyle(fontSize: 14.sp),
+                          keyboardType: TextInputType.text,
+                        ),
+                        SizedBox(height: 2.h),
+                      ],
+                    ),
+                  ),
                   onCancel: () {},
                   onConfirm: () async {
                     controller.add(GoToQuiz());
                   },
-                  title: "Quiz",
-                  titleStyle: TextStyle(color: MyColors().mainColors),
-                  content: SizedBox(
-                      child: Column(
-                    children: [
-                      TextFormField(
-                        controller: controller.quizIdCont,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.abc),
-                          focusedBorder: OutlineInputBorder(),
-                          enabledBorder: OutlineInputBorder(),
-                          hintText: "Quiz Id",
-                        ),
-                      ),
-                    ],
-                  )),
                 );
               },
               child: ClassRoomPart(
                   color: Colors.green,
                   icon: Icon(
                     Icons.quiz,
+                    size: 30.sp,
                     color: MyColors().mainColors,
                   ),
                   service: "Quiz"),

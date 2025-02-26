@@ -7,8 +7,7 @@ import 'package:studify/core/services/services.dart';
 import 'package:studify/view/modules/main%20pages/screens/doctor_home_page.dart';
 import 'package:studify/view/modules/main%20pages/screens/student_home_page.dart';
 
-Future<void> loginFun(
-    String email, String password, String type) async {
+Future<void> loginFun(String email, String password, String type) async {
   final services = Get.put(Services());
   try {
     bool isDoctor = false;
@@ -39,23 +38,36 @@ Future<void> loginFun(
         Get.offAll(const StudentHomePage());
       }
 
-      Get.snackbar("Success", "You have successfully logged in",
-          backgroundColor: MyColors().mainColors.withOpacity(0.7),
-          colorText: Colors.white,
-          animationDuration: const Duration(milliseconds: 500),
-          duration: const Duration(milliseconds: 1500));
+      Get.snackbar(
+        "Success",
+        "You have successfully logged in",
+        backgroundColor: MyColors().mainColors.withOpacity(0.7),
+        colorText: Colors.white,
+        animationDuration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 2000),
+        snackPosition: SnackPosition.BOTTOM,
+        margin: EdgeInsets.symmetric(horizontal: Get.width * 0, vertical: 10),
+        borderRadius: 12,
+        isDismissible: true,
+        forwardAnimationCurve: Curves.easeOutBack,
+        snackStyle: SnackStyle.FLOATING,
+      );
     } else {
-    
       Get.defaultDialog(
+        title: "Wrong",
+        titleStyle: TextStyle(color: MyColors().mainColors, fontSize: 20),
+        content: Container(
+          width: Get.width * 1,
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            "Email or Password isn't correct",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: MyColors().mainColors, fontSize: 18),
+          ),
+        ),
         buttonColor: MyColors().mainColors,
         cancelTextColor: MyColors().mainColors,
         confirmTextColor: Colors.white,
-        title: "Wrong",
-        titleStyle: TextStyle(color: MyColors().mainColors),
-        content: Text(
-          "Email or Password isn't correct",
-          style: TextStyle(color: MyColors().mainColors),
-        ),
         onCancel: () {},
       );
     }

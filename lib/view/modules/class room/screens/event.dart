@@ -41,9 +41,13 @@ class EventPage extends StatelessWidget {
 
             return Scaffold(
               appBar: AppBar(
-                title: Text(controller.eventName),
-                centerTitle: true,
+                toolbarHeight: 7.h,
+                title: Text(
+                  controller.eventName,
+                  style: TextStyle(fontSize: 17.sp),
+                ),
                 backgroundColor: MyColors().mainColors,
+                centerTitle: true,
               ),
               body: Center(
                 child: SizedBox(
@@ -89,12 +93,12 @@ class EventPage extends StatelessWidget {
                                       snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return  Center(
-                                      child:  Lottie.asset(
-              'assets/Animation - 1740512569959.json',
-              height: 20.h,
-              fit: BoxFit.contain,
-            ));
+                                  return Center(
+                                      child: Lottie.asset(
+                                    'assets/Animation - 1740512569959.json',
+                                    height: 20.h,
+                                    fit: BoxFit.contain,
+                                  ));
                                 } else if (snapshot.hasData &&
                                     snapshot.data!.isNotEmpty) {
                                   return ParticipantsCard(
@@ -106,12 +110,11 @@ class EventPage extends StatelessWidget {
                                   );
                                 } else {
                                   return Center(
-                                    child:  Lottie.asset(
-                'assets/Animation - 1740514545687.json',
-                height: 28.h,
-                fit: BoxFit.contain,
-              )
-                                  );
+                                      child: Lottie.asset(
+                                    'assets/Animation - 1740514545687.json',
+                                    height: 28.h,
+                                    fit: BoxFit.contain,
+                                  ));
                                 }
                               },
                             );

@@ -30,9 +30,43 @@ class ParticipantsCard extends StatelessWidget {
         return InkWell(
           onTap: () {
             Get.defaultDialog(
+              title: "Change Score",
+              titleStyle: TextStyle(
+                color: MyColors().mainColors,
+                fontSize: 16.sp, // حجم خط متجاوب
+                fontWeight: FontWeight.bold,
+              ),
               buttonColor: MyColors().mainColors,
               cancelTextColor: MyColors().mainColors,
               confirmTextColor: Colors.white,
+              radius: 12.sp, // زوايا ناعمة
+              content: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 5.w, vertical: 2.h), // تحسين التباعد
+                child: Column(
+                  mainAxisSize:
+                      MainAxisSize.min, // لضمان عدم تمدد المحتوى بشكل غير ضروري
+                  children: [
+                    FormFieldPart(
+                      controller: newScoreCont,
+                      hint: "New Score",
+                      icon: Icons.score,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'New Score cannot be empty';
+                        }
+                        final score = int.tryParse(value);
+                        if (score == null) {
+                          return 'New Score must be a valid number';
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.number,
+                    ),
+                    SizedBox(height: 2.h),
+                  ],
+                ),
+              ),
               onCancel: () {},
               onConfirm: () async {
                 final newScore = newScoreCont.text.trim();
@@ -41,10 +75,11 @@ class ParticipantsCard extends StatelessWidget {
                     score >= 0 &&
                     score <= int.parse(totalScoreCont.text)) {
                   changeStudentScore(
-                      classId.toString(),
-                      participants[index]['studentId'].toString(),
-                      newScore.toString(),
-                      eventId.toString());
+                    classId.toString(),
+                    participants[index]['studentId'].toString(),
+                    newScore.toString(),
+                    eventId.toString(),
+                  );
                 } else {
                   newScoreCont.clear();
                   Get.snackbar(
@@ -52,33 +87,18 @@ class ParticipantsCard extends StatelessWidget {
                     "Please enter a valid score between 0 and ${totalScoreCont.text}",
                     backgroundColor: MyColors().mainColors,
                     colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                    borderRadius: 10.sp,
+                    padding: EdgeInsets.all(2.w),
+                    duration: const Duration(seconds: 3),
+                    icon: Icon(Icons.error, color: Colors.white, size: 18.sp),
+                    overlayBlur: 1,
+                    overlayColor: Colors.black.withOpacity(0.2),
                   );
                 }
               },
-              title: "Change Score",
-              titleStyle: TextStyle(color: MyColors().mainColors),
-              content: SizedBox(
-                child: Column(
-                  children: [
-                    FormFieldPart(
-                        controller: newScoreCont,
-                        hint: "New Score",
-                        icon: Icons.score,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'New Score cannot be empty';
-                          }
-                          final score = int.tryParse(value);
-                          if (score == null) {
-                            return 'New Score must be a valid number';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number),
-                    SizedBox(height: 1.h),
-                  ],
-                ),
-              ),
             );
           },
           child: Container(
@@ -90,18 +110,22 @@ class ParticipantsCard extends StatelessWidget {
             ),
             margin: EdgeInsets.all(5.sp),
             child: ListTile(
-              leading: const Icon(Icons.person, color: Colors.white),
+              leading: Icon(
+                Icons.person,
+                color: Colors.white,
+                size: 15.sp,
+              ),
               title: Text(
                 participants[index]['studentName'],
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 12.sp),
               ),
               subtitle: Text(
                 participants[index]['studentId'],
-                style: const TextStyle(color: Colors.white70),
+                style: TextStyle(color: Colors.white70, fontSize: 10.sp),
               ),
               trailing: Text(
                 "Score: ${participants[index]['studentScore']}",
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 12.sp),
               ),
             ),
           ),

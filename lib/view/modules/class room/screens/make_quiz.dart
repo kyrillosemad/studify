@@ -19,10 +19,13 @@ class MakeQuiz extends StatelessWidget {
             var controller = context.read<EventsBloc>();
             return Scaffold(
               appBar: AppBar(
-                title: const Text("Create Quiz"),
-                centerTitle: true,
+                toolbarHeight: 7.h,
+                title: Text(
+                  "Create Quiz",
+                  style: TextStyle(fontSize: 17.sp),
+                ),
                 backgroundColor: MyColors().mainColors,
-                elevation: 0,
+                centerTitle: true,
               ),
               body: Padding(
                 padding: EdgeInsets.all(4.w),

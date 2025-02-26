@@ -22,9 +22,13 @@ class OneStudentDegree extends StatelessWidget {
                 controller.classId, controller.studentId, ''));
             return Scaffold(
               appBar: AppBar(
-                title: Text("${controller.studentName}"),
-                centerTitle: true,
+                toolbarHeight: 7.h,
+                title: Text(
+                  "${controller.studentName}",
+                  style: TextStyle(fontSize: 17.sp),
+                ),
                 backgroundColor: MyColors().mainColors,
+                centerTitle: true,
               ),
               body: Center(
                 child: SizedBox(
@@ -58,12 +62,12 @@ class OneStudentDegree extends StatelessWidget {
                         child: BlocBuilder<DegreesBloc, DegreesState>(
                           builder: (context, state) {
                             if (state is DegreesLoading) {
-                              return  Center(
+                              return Center(
                                 child: Lottie.asset(
-              'assets/Animation - 1740512569959.json',
-              height: 20.h,
-              fit: BoxFit.contain,
-            ),
+                                  'assets/Animation - 1740512569959.json',
+                                  height: 20.h,
+                                  fit: BoxFit.contain,
+                                ),
                               );
                             } else if (state is DegreesError) {
                               return Center(
@@ -75,12 +79,11 @@ class OneStudentDegree extends StatelessWidget {
                             } else if (state is DegreesLoaded) {
                               if (state.degrees.isEmpty) {
                                 return Center(
-                                  child:  Lottie.asset(
-                'assets/Animation - 1740514545687.json',
-                height: 28.h,
-                fit: BoxFit.contain,
-              )
-                                );
+                                    child: Lottie.asset(
+                                  'assets/Animation - 1740514545687.json',
+                                  height: 28.h,
+                                  fit: BoxFit.contain,
+                                ));
                               } else {
                                 double totalScore = state.degrees.fold(
                                     0.0,

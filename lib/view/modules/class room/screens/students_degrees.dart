@@ -19,11 +19,15 @@ class StudentsDegree extends StatelessWidget {
           var controller = context.read<ParticipantsBloc>();
           controller.add(FetchParticipants(controller.classId, ''));
           return Scaffold(
-            appBar: AppBar(
-              backgroundColor: MyColors().mainColors,
-              title: const Text("Students Degrees"),
-              centerTitle: true,
-            ),
+           appBar: AppBar(
+                toolbarHeight: 7.h,
+                title: Text(
+                  "Students Degrees",
+                  style: TextStyle(fontSize: 17.sp),
+                ),
+                backgroundColor: MyColors().mainColors,
+                centerTitle: true,
+              ),
             body: Center(
               child: SizedBox(
                 width: 95.w,

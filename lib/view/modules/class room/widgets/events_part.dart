@@ -57,8 +57,14 @@ class EventsPart extends StatelessWidget {
                 color: MyColors().mainColors.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(10.sp)),
             child: ListTile(
-              title: Text(event['eventName'].toString()),
-              subtitle: Text(formattedDate),
+              title: Text(
+                event['eventName'].toString(),
+                style: TextStyle(fontSize: 12.sp),
+              ),
+              subtitle: Text(
+                formattedDate,
+                style: TextStyle(fontSize: 10.sp),
+              ),
               trailing: InkWell(
                   onTap: () {
                     Get.defaultDialog(
@@ -77,9 +83,10 @@ class EventsPart extends StatelessWidget {
                       },
                     );
                   },
-                  child: const Icon(
+                  child: Icon(
                     Icons.delete,
                     color: Colors.red,
+                    size: 15.sp,
                   )),
               leading: const Icon(Icons.event),
             ),

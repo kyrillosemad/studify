@@ -45,6 +45,7 @@ class ClassList extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               itemCount: state.classes.length,
               itemBuilder: (BuildContext context, int index) {
+               
                 return ClassListItem(
                   controller: controller,
                   classInfo: state.classes[index],
@@ -120,6 +121,7 @@ class ClassListItem extends StatelessWidget {
         child: ListTile(
           leading: Icon(
             Icons.class_,
+            size: 22.sp,
             color: MyColors().mainColors,
           ),
           title: Text(

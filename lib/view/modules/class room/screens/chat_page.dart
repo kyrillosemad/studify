@@ -23,11 +23,15 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Chat Room"),
-        centerTitle: true,
-        backgroundColor: MyColors().mainColors,
-      ),
+   appBar: AppBar(
+                toolbarHeight: 7.h,
+                title: Text(
+                  "Chat Room",
+                  style: TextStyle(fontSize: 17.sp),
+                ),
+                backgroundColor: MyColors().mainColors,
+                centerTitle: true,
+              ),
       body: Column(
         children: [
           Expanded(

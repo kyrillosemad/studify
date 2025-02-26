@@ -1,4 +1,3 @@
-
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
@@ -25,6 +24,7 @@ class SearchField extends StatelessWidget {
         prefixIcon: Icon(
           Icons.search,
           color: MyColors().mainColors,
+          size: 20.sp,
         ),
         hintText: hint,
         hintStyle: TextStyle(fontSize: 13.sp),

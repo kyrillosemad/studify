@@ -43,7 +43,11 @@ class AddAnotherEvent extends StatelessWidget {
 
             return Scaffold(
               appBar: AppBar(
-                title: const Text("New Event"),
+                toolbarHeight: 7.h,
+                title: Text(
+                  "New Event",
+                  style: TextStyle(fontSize: 17.sp),
+                ),
                 backgroundColor: MyColors().mainColors,
                 centerTitle: true,
               ),

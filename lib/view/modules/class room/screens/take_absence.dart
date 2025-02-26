@@ -45,7 +45,11 @@ class TakeAbsence extends StatelessWidget {
 
             return Scaffold(
               appBar: AppBar(
-                title: const Text("Take Absence"),
+                toolbarHeight: 7.h,
+                title: Text(
+                  "Take Absence",
+                  style: TextStyle(fontSize: 17.sp),
+                ),
                 backgroundColor: MyColors().mainColors,
                 centerTitle: true,
               ),

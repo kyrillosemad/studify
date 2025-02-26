@@ -21,9 +21,13 @@ class MyEvents extends StatelessWidget {
             var controller = context.read<MyEventsBloc>();
             controller.add(GetEvents(controller.classId, ''));
             return Scaffold(
-              appBar: AppBar(
+        appBar: AppBar(
+                toolbarHeight: 7.h,
+                title: Text(
+                  "My Events",
+                  style: TextStyle(fontSize: 17.sp),
+                ),
                 backgroundColor: MyColors().mainColors,
-                title: const Text("My Events"),
                 centerTitle: true,
               ),
               body: Center(

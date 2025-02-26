@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:studify/core/constants/colors.dart';
+import 'package:studify/services/firebase/participants/add_participants.dart';
 import 'package:studify/view%20model/class/class_bloc.dart';
 import 'package:studify/view%20model/class/class_event.dart';
-import 'package:studify/view%20model/participants/participants_bloc.dart';
 import 'package:studify/view/modules/main%20pages/screens/student_home_page.dart';
 import 'package:studify/view/modules/main%20pages/widgets/homepage_classes.dart';
 import 'package:studify/view/modules/main%20pages/widgets/homepage_texts.dart';
@@ -84,14 +83,12 @@ class AddClassButton extends StatelessWidget {
                 cancelTextColor: MyColors().mainColors,
                 confirmTextColor: Colors.white,
                 onCancel: () {},
-                onConfirm: () {
-                  context.read<ParticipantsBloc>().add(
-                        AddParticipants(
-                          controller.classIdController.text,
-                          Shared().id.toString(),
-                          Shared().userName.toString(),
-                        ),
-                      );
+                onConfirm: () async {
+                  await addParticipant(
+                    controller.classIdController.text,
+                    Shared().id.toString(),
+                    Shared().userName.toString(),
+                  );
                   controller.classIdController.text = '';
                   Get.offAll(const StudentHomePage());
                 },
@@ -101,12 +98,12 @@ class AddClassButton extends StatelessWidget {
                   height: 6.h,
                   child: TextFormField(
                     controller: controller.classIdController,
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.abc),
-                      focusedBorder: OutlineInputBorder(),
-                      enabledBorder: OutlineInputBorder(),
-                      hintText: "Class ID",
-                    ),
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.abc),
+                        focusedBorder: const OutlineInputBorder(),
+                        enabledBorder: const OutlineInputBorder(),
+                        hintText: "Class ID",
+                        hintStyle: TextStyle(fontSize: 15.sp)),
                   ),
                 ),
               );
@@ -121,6 +118,7 @@ class AddClassButton extends StatelessWidget {
 class LeaveClassButton extends StatelessWidget {
   final String classId;
   final ClassBloc controller;
+
   const LeaveClassButton({
     super.key,
     required this.controller,
@@ -136,21 +134,36 @@ class LeaveClassButton extends StatelessWidget {
           cancelTextColor: MyColors().mainColors,
           confirmTextColor: Colors.white,
           title: "Leave?",
-          titleStyle: TextStyle(color: MyColors().mainColors),
-          content: Text(
-            "Want to leave this class?",
-            style: TextStyle(color: MyColors().mainColors),
+          titleStyle: TextStyle(
+            color: MyColors().mainColors,
+            fontSize: 16.sp, // حجم متجاوب للنص
+            fontWeight: FontWeight.bold,
           ),
+          content: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.w), // تباعد متجاوب
+            child: Text(
+              "Want to leave this class?",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: MyColors().mainColors,
+                fontSize: 14.sp, // حجم متجاوب
+              ),
+            ),
+          ),
+          radius: 12.sp, // جعل الحواف ناعمة ومتجاوبة
           onCancel: () {},
           onConfirm: () async {
             controller.add(LeaveClassForStudent(classId));
           },
         );
       },
-      child: Icon(
-        Icons.logout_outlined,
-        size: 25.sp,
-        color: MyColors().mainColors,
+      child: Padding(
+        padding: EdgeInsets.all(2.w), // تباعد متجاوب
+        child: Icon(
+          Icons.logout_outlined,
+          size: 22.sp, // جعل الأيقونة متجاوبة
+          color: MyColors().mainColors,
+        ),
       ),
     );
   }

@@ -22,6 +22,7 @@ class Participants extends StatelessWidget {
           controller.add(FetchParticipants(controller.classId, ''));
           return Scaffold(
             appBar: AppBar(
+              toolbarHeight: 7.h,
               backgroundColor: MyColors().mainColors,
               centerTitle: true,
               title: BlocBuilder<ParticipantsBloc, ParticipantsState>(
@@ -30,7 +31,9 @@ class Participants extends StatelessWidget {
                     controller.numOfParticipants = state.participants.length;
                   }
                   return Text(
-                      "Participants: (${controller.numOfParticipants})");
+                    "Participants: (${controller.numOfParticipants})",
+                    style: TextStyle(fontSize: 17.sp),
+                  );
                 },
               ),
             ),
@@ -69,12 +72,12 @@ class Participants extends StatelessWidget {
                       child: BlocBuilder<ParticipantsBloc, ParticipantsState>(
                         builder: (context, state) {
                           if (state is ParticipantsLoading) {
-                            return  Center(
-                                child:  Lottie.asset(
-              'assets/Animation - 1740512569959.json',
-              height: 20.h,
-              fit: BoxFit.contain,
-            ));
+                            return Center(
+                                child: Lottie.asset(
+                              'assets/Animation - 1740512569959.json',
+                              height: 20.h,
+                              fit: BoxFit.contain,
+                            ));
                           }
                           if (state is ParticipantsError) {
                             return Center(
@@ -86,12 +89,11 @@ class Participants extends StatelessWidget {
                                 state.participants.length;
                             if (state.participants.isEmpty) {
                               return Center(
-                                child: Lottie.asset(
-                'assets/Animation - 1740514545687.json',
-                height: 28.h,
-                fit: BoxFit.contain,
-              )
-                              );
+                                  child: Lottie.asset(
+                                'assets/Animation - 1740514545687.json',
+                                height: 28.h,
+                                fit: BoxFit.contain,
+                              ));
                             } else {
                               return ParticipantsPart(
                                 controller: controller,

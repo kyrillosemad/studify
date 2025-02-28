@@ -22,7 +22,7 @@ Responsive Design 📱
 Clean Code Principles ✅
 This application ensures a structured, interactive, and efficient learning environment for both students and professors. 🎓✨
 
-##Screenshots
+## Screenshots
 <img src="https://github.com/user-attachments/assets/dd006ab5-70f8-4ac3-874f-69207c5f315a" alt="Image" width="350"/>
 <img src="https://github.com/user-attachments/assets/5d9dfcf8-fa2b-4e11-b9be-29e6ceaf05ec" alt="Image" width="350"/>
 <img src="https://github.com/user-attachments/assets/a03805ed-7d04-4203-be9b-9ce54d3f3285" alt="Image" width="350"/>
